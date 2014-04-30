@@ -1,0 +1,10 @@
+{
+  "name": "itlog",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "1.2",
+    "ng-grid": "2.0",
+    "angular-bootstrap": "0.10",
+    "bootstrap": "3"
+  }
+}
