@@ -1,8 +1,9 @@
-var itlog_app = angular.module('itlog_app', ['ui.bootstrap', 'ngGrid']);
+'use strict';
 
-var api_base = "http://192.168.64.128/website/itlog/api/";
+var itlog_app = angular.module('itlog_app', ['ui.bootstrap', 'ngGrid', 'resourceServices']);
 
-itlog_app.controller('my_contorller', function($scope, $http) {
+
+itlog_app.controller('my_contorller', ['$scope', 'Resource', function($scope, Resource) {
 	$scope.filterOptions = {
 		filterText: "",
 		useExternalFilter: true
@@ -26,15 +27,15 @@ itlog_app.controller('my_contorller', function($scope, $http) {
 			var data;
 			if (searchText) {
 				var ft = searchText.toLowerCase();
-				$http.get(api_base + 'resource').success(function (largeLoad) {
-					data = largeLoad.filter(function(item) {
-						return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
-					});
-					$scope.setPagingData(data,page,pageSize);
-				});            
+				//$http.get(api_base + 'resource').success(function (largeLoad) {
+					//data = largeLoad.filter(function(item) {
+						//return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
+					//});
+					//$scope.setPagingData(data,page,pageSize);
+				//});            
 			} else {
-				$http.get(api_base + 'resource').success(function (largeLoad) {
-					$scope.setPagingData(largeLoad,page,pageSize);
+				Resource.query(function(result) {
+					$scope.setPagingData(result,page,pageSize);
 				});
 			}
 		}, 100);
@@ -61,4 +62,4 @@ itlog_app.controller('my_contorller', function($scope, $http) {
 		pagingOptions: $scope.pagingOptions,
 		filterOptions: $scope.filterOptions
 	};
-});
+}]);
