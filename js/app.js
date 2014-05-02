@@ -10,10 +10,10 @@ itlog_app.controller('my_contorller', ['$scope', 'Resource', function($scope, Re
 	}; 
 	$scope.totalServerItems = 0;
 	$scope.pagingOptions = {
-		pageSizes: [250, 500, 1000],
-		pageSize: 250,
+		pageSizes: [10, 25, 50],
+		pageSize: 10,
 		currentPage: 1
-	};	
+	};
 	$scope.setPagingData = function(data, page, pageSize){
 		//var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
 		$scope.myData = data.results;
@@ -34,7 +34,7 @@ itlog_app.controller('my_contorller', ['$scope', 'Resource', function($scope, Re
 					//$scope.setPagingData(data,page,pageSize);
 				//});            
 			} else {
-				Resource.query(function(result) {
+				Resource.query({page_size:pageSize, page:page}, function(result) {
 					$scope.setPagingData(result,page,pageSize);
 				});
 			}
@@ -60,6 +60,7 @@ itlog_app.controller('my_contorller', ['$scope', 'Resource', function($scope, Re
 		showFooter: true,
 		totalServerItems: 'totalServerItems',
 		pagingOptions: $scope.pagingOptions,
-		filterOptions: $scope.filterOptions
+		filterOptions: $scope.filterOptions,
+		plugins: [new ngGridFlexibleHeightPlugin()]
 	};
 }]);
