@@ -10,6 +10,15 @@
 <body ng-controller="my_contorller">
 <div class="container">
   <div class="row">
+      <form class="form-inline" role="form">
+        <div class="form-group col-xs-10">
+          <input type="text" class="form-control" style="width:100%" ng-model="search">
+        </div>
+        <button type="submit" class="btn btn-info" ng-click="doSearch()">搜索</button>
+        <button type="submit" class="btn btn-default" ng-click="cleanSearch()">清除</button>
+      </form>
+  </div>
+  <div class="row">
     <div class="col-xs-12">
       <form class="form-inline" role="form">
         <label>显示的列:</label>
@@ -21,20 +30,21 @@
       </form>
 
       <table ng-table="tableParams"  class="table">
-        <thead>
           <tr>
-            <th ng-repeat="column in tableColumns" ng-show="column.visible" class="text-center">
+            <th ng-repeat="column in tableColumns" ng-show="column.visible" 
+              class="text-center sortable" ng-class="{
+              'sort-asc': tableParams.isSortBy(column.field, 'asc'),
+              'sort-desc': tableParams.isSortBy(column.field, 'desc')
+              }"
+              ng-click="tableParams.sorting(column.field, tableParams.isSortBy(column.field, 'desc') ? 'asc' : 'desc')">
               {{column.title}}
             </th>
           </tr>
-        </thead> 
-        <tbody>
         <tr ng-repeat="resource in $data">
-          <td ng-repeat="column in tableColumns" ng-show="column.visible">
+          <td ng-repeat="column in tableColumns" ng-show="column.visible" sortable="column.field">
             {{resource[column.field]}}
           </td> 
         </tr> 
-        </tbody>
       </table>
     </div>
   </div>
@@ -48,23 +58,5 @@
 
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/services.js"></script>
-<script type="text/ng-template" id="custom/pager">
-<ul class="pager ng-cloak">
-  <li ng-repeat="page in pages"
-      ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
-      ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
-  <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo; Previous</a>
-  <a ng-switch-when="next" ng-click="params.page(page.number)" href="">Next &raquo;</a>
-  </li>
-  <li> 
-  <div class="btn-group">
-      <button type="button" ng-class="{'active':params.count() == 10}" ng-click="params.count(10)" class="btn btn-default">10</button>
-      <button type="button" ng-class="{'active':params.count() == 25}" ng-click="params.count(25)" class="btn btn-default">25</button>
-      <button type="button" ng-class="{'active':params.count() == 50}" ng-click="params.count(50)" class="btn btn-default">50</button>
-      <button type="button" ng-class="{'active':params.count() == 100}" ng-click="params.count(100)" class="btn btn-default">100</button>
-  </div>
-  </li>
-</ul>
-</script> 
 </body>
 </html>

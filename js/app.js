@@ -30,16 +30,47 @@ itlog_app.controller('my_contorller', ['$scope', 'Resource', 'ngTableParams', fu
 		{ title: '已用年数', field: 'used_year', visible: false },
 		{ title: '折旧价格', field: 'depreciated_price', visible: false }
             ]; 
+
 	$scope.tableParams = new ngTableParams({
 		page: 1,            // show first page
-		count: 10           // count per page
+		count: 10,          // count per page
+		sorting: { record_date: 'desc'}
 	}, {
 		total: 0, // length of data
 		getData: function($defer, params) {
-			Resource.query(params.url(), function(data){
+			var urlParams = {page:params.page(), page_size: params.count()};
+
+			var sorting = params.sorting();
+			var ordering = [];
+			for (var key in sorting) {
+				var order = sorting[key];
+				if (order === 'desc') {
+					ordering.push('-' + key);
+				}
+				else {
+					ordering.push(key);
+				}
+			}
+			urlParams['ordering'] = ordering;
+
+			if ($scope.search) {
+				urlParams['search'] = $scope.search;
+			}
+
+			Resource.query(urlParams, function(data){
 				params.total(data.count);
 				$defer.resolve(data.results);
 			});
 		}
 	}); 
+
+	$scope.doSearch =  function () {
+		$scope.tableParams.page(1);
+		$scope.tableParams.reload();
+	};
+	$scope.cleanSearch =  function () {
+		$scope.tableParams.page(1);
+		$scope.search = '';
+		$scope.tableParams.reload();
+	};
 }]);
