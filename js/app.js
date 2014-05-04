@@ -64,13 +64,13 @@ itlog_app.controller('my_contorller', ['$scope', 'Resource', 'ngTableParams', fu
 		}
 	}); 
 
-	$scope.doSearch =  function () {
-		$scope.tableParams.page(1);
-		$scope.tableParams.reload();
-	};
 	$scope.cleanSearch =  function () {
 		$scope.tableParams.page(1);
 		$scope.search = '';
 		$scope.tableParams.reload();
 	};
+	$scope.$watch('search', function(newValue, oldValue) {
+		$scope.tableParams.page(1);
+		$scope.tableParams.reload();
+	});
 }]);
