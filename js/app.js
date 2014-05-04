@@ -64,13 +64,17 @@ itlog_app.controller('my_contorller', function($scope, Restangular, Resource, ng
 		}
 	}); 
 
-	$scope.doSearch =  function () {
-		$scope.tableParams.page(1);
-		$scope.tableParams.reload();
-	};
 	$scope.cleanSearch =  function () {
 		$scope.tableParams.page(1);
 		$scope.search = '';
 		$scope.tableParams.reload();
 	};
+<<<<<<< HEAD
 });
+=======
+	$scope.$watch('search', function(newValue, oldValue) {
+		$scope.tableParams.page(1);
+		$scope.tableParams.reload();
+	});
+}]);
+>>>>>>> c98dc3c5ccdd1a95206f738e5f0dfbaf99bb3947
