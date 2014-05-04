@@ -1,9 +1,9 @@
 'use strict';
 
-var itlog_app = angular.module('itlog_app', ['ui.bootstrap', 'resourceServices', 'ngTable']);
+var itlog_app = angular.module('itlog_app', ['restangular', 'resourceServices', 'ngTable']);
 
 
-itlog_app.controller('my_contorller', ['$scope', 'Resource', 'ngTableParams', function($scope, Resource, ngTableParams) {
+itlog_app.controller('my_contorller', function($scope, Restangular, Resource, ngTableParams) {
 	$scope.tableColumns = [
 		{ title: 'url', field: 'url', visible: false },
 		{ title: '序号', field: 'number', visible: false },
@@ -73,4 +73,4 @@ itlog_app.controller('my_contorller', ['$scope', 'Resource', 'ngTableParams', fu
 		$scope.search = '';
 		$scope.tableParams.reload();
 	};
-}]);
+});

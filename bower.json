@@ -4,6 +4,7 @@
   "dependencies": {
     "angular": "1.2.16",
     "angular-resource": "1.2",
+    "restangular ": "1.4",
     "ng-grid": "2.0",
     "angular-bootstrap": "0.10",
     "bootstrap": "3",
