@@ -9,6 +9,8 @@ services.factory('Resource', function(Restangular){
 services.config(function(RestangularProvider) {
 	RestangularProvider.setBaseUrl("http://192.168.64.128/website/itlog/api/");
 	//RestangularProvider.setBaseUrl("http://127.0.0.1:8000/itlog/api/");
+	
+	RestangularProvider.setRequestSuffix('/');
 
 	RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
 		var extractedData;

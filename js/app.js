@@ -1,6 +1,6 @@
 'use strict';
 
-var itlog_app = angular.module('itlog_app', ['itlogServices', 'ngTable']);
+var itlog_app = angular.module('itlogApp', ['itlogServices', 'ngTable']);
 
 
 itlog_app.controller('my_contorller', function($scope, Resource, ngTableParams) {
