@@ -1,3 +1,7 @@
 .checkbox {
   margin-right:8px;
 }
+
+.resourceTable tr {
+    cursor: pointer;
+}
