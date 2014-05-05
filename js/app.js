@@ -1,7 +1,6 @@
 'use strict';
 
 var tableColumns  = [
-	{ title: 'url', field: 'url', visible: false },
 	{ title: '序号', field: 'number', visible: false },
 	{ title: '资产编号', field: 'sn', visible: true },
 	{ title: '分类号', field: 'catalog_id', visible: false },
@@ -77,17 +76,24 @@ itlog_app.controller('my_contorller', function($scope, $modal, Resource, ngTable
 		}
 	});
 
-	$scope.open = function () {
+	$scope.open = function (resource) {
+		$scope.selectedResouce = resource;
 		var modalInstance = $modal.open({
 			templateUrl: 'detail.html',
 			controller: ModalInstanceCtrl,
+			resolve: {
+				resource: function () {
+					return $scope.selectedResouce;
+				}
+			}
 		});
 	};
 });
 
-var ModalInstanceCtrl = function($scope, $modalInstance) {
-
+var ModalInstanceCtrl = function($scope, $modalInstance, resource) {
 	$scope.tableColumns = tableColumns;
+	$scope.resource = resource;
+
 	$scope.ok = function () {
 		$modalInstance.close();
 	};

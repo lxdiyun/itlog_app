@@ -41,7 +41,7 @@
               {{column.title}}
             </th>
           </tr>
-        <tr ng-repeat="resource in $data" ng-click="open()">
+        <tr ng-repeat="resource in $data" ng-click="open(resource)">
           <td ng-repeat="column in tableColumns" ng-show="column.visible" sortable="column.field">
             {{resource[column.field]}}
           </td> 
@@ -55,14 +55,14 @@
 
 <script type="text/ng-template" id="detail.html">
 <div class="modal-header">
-  <h3 class="modal-title">I'm a modal!</h3>
+  <h3 class="modal-title">{{resource.sn}}</h3>
 </div>
 <div class="modal-body">
-  <ul>
-    <li ng-repeat="field in tableColumns">
-    {{field.title}}
-    </li>
-  </ul>
+    <dl class="dl-horizontal">
+    <div>
+    <dt ng-repeat-start="field in tableColumns">{{field.title}}</dt>
+    <dd ng-repeat-end>{{resource[field.field] || '*'}}</dd>
+    </dl>
 </div>
 <div class="modal-footer">
   <button class="btn btn-primary" ng-click="ok()">OK</button>
