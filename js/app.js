@@ -1,10 +1,9 @@
 'use strict';
 
-var itlog_app = angular.module('itlog_app', ['restangular', 'ngTable']);
+var itlog_app = angular.module('itlog_app', ['itlogServices', 'ngTable']);
 
 
-itlog_app.controller('my_contorller', function($scope, Restangular, ngTableParams) {
-	$scope.Resource = Restangular.all('resource');
+itlog_app.controller('my_contorller', function($scope, Resource, ngTableParams) {
 	$scope.tableColumns = [
 		{ title: 'url', field: 'url', visible: false },
 		{ title: '序号', field: 'number', visible: false },
@@ -58,11 +57,7 @@ itlog_app.controller('my_contorller', function($scope, Restangular, ngTableParam
 				urlParams['search'] = $scope.search;
 			}
 
-			//Resource.query(urlParams, function(data){
-				//params.total(data.count);
-				//$defer.resolve(data.results);
-			//});
-			$scope.Resource.getList(urlParams).then(function(data){
+			Resource.getList(urlParams).then(function(data){
 				params.total(data.count);
 				$defer.resolve(data);
 			});
@@ -80,22 +75,4 @@ itlog_app.controller('my_contorller', function($scope, Restangular, ngTableParam
 			$scope.tableParams.reload();
 		}
 	});
-});
-
-itlog_app.config(function(RestangularProvider) {
-	//RestangularProvider.setBaseUrl("http://192.168.64.128/website/itlog/api/");
-	RestangularProvider.setBaseUrl("http://127.0.0.1:8000/itlog/api/");
-
-	RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-		var extractedData;
-		// .. to look for getList operations
-		if (operation === "getList") {
-			extractedData = data.results;
-			extractedData.count = data.count;
-		} else {
-			extractedData = data;
-		}
-		return extractedData;
-    });
-
 });
