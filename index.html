@@ -22,27 +22,31 @@
     </div>
   </div>
   <form class="form-inline" role="form">
-        <div class="form-group has-feedback">
-          <input type="text" class="form-control" placeholder="搜索" style="width:100%" ng-model="search" xng-clearable>
-          <span class="glyphicon glyphicon-remove form-control-feedback" ng-click="cleanSearch()" ng-show="search.length"></span>
-        </div>
+    <div class="form-group has-feedback">
+      <input type="text" class="form-control" placeholder="搜索" style="width:100%" ng-model="search" xng-clearable>
+      <span class="glyphicon glyphicon-remove form-control-feedback clickable" ng-click="cleanSearch()" ng-show="search.length"></span>
+    </div>
   </form>
   <div class="row">
     <div class="col-xs-12 table-responsive">
       <label ng-show="tableParams.total()">数量：{{tableParams.total()}}</label>
-      <table ng-table="tableParams" class="table table-hover resourceTable">
-          <tr ng-show="tableParams.total()">
-            <th ng-repeat="column in tableColumns" ng-show="column.visible" 
-              class="text-center sortable" ng-class="{
-              'sort-asc': tableParams.isSortBy(column.field, 'asc'),
-              'sort-desc': tableParams.isSortBy(column.field, 'desc')
-              }"
-              ng-click="tableParams.sorting(column.field, tableParams.isSortBy(column.field, 'desc') ? 'asc' : 'desc')">
-              {{column.title}}
-            </th>
-          </tr>
-        <tr ng-repeat="resource in $data" ng-click="open(resource)">
-          <td ng-repeat="column in tableColumns" ng-show="column.visible" sortable="column.field">
+
+      <table ng-table="tableParams" class="table table-hover">
+        <tr ng-show="tableParams.total()">
+          <th ng-repeat="column in tableColumns"
+            ng-show="column.visible" 
+            ng-class="{
+            'sort-asc': tableParams.isSortBy(column.field, 'asc'),
+            'sort-desc': tableParams.isSortBy(column.field, 'desc')
+            }"
+            ng-click="tableParams.sorting(column.field, tableParams.isSortBy(column.field, 'desc') ? 'asc' : 'desc')"
+            class="text-center sortable table-data"
+            >
+            {{column.title}}
+          </th>
+        </tr>
+        <tr ng-repeat="resource in $data" ng-click="open(resource)" class="clickable table-row">
+          <td ng-repeat="column in tableColumns" ng-show="column.visible" sortable="column.field" class="table-data">
             {{resource[column.field]}}
           </td> 
         </tr> 
@@ -50,6 +54,7 @@
     </div>
   </div>
 </div>
+
 
 <script data-main="js/main" src="bower_components/requirejs/require.js"></script>
 
@@ -61,7 +66,7 @@
     <dl class="dl-horizontal">
     <div>
     <dt ng-repeat-start="field in tableColumns">{{field.title}}</dt>
-    <dd ng-repeat-end>{{resource[field.field] || '*'}}</dd>
+    <dd ng-repeat-end>{{resource[field.field]||' '}}</dd>
     </dl>
 </div>
 <div class="modal-footer">

@@ -4,6 +4,7 @@
 	"dependencies": {
 		"requirejs": "2.1",
 		"angular": "1.2.16",
+		"angular-animate": "1.2.16",
 		"restangular ": "1.4",
 		"ng-grid": "2.0",
 		"angular-bootstrap": "0.10",

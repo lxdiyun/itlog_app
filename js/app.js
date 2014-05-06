@@ -26,8 +26,7 @@ var tableColumns  = [
 	{ title: '折旧价格', field: 'depreciated_price', visible: false }
 ]; 
 
-var itlog_app = angular.module('itlogApp', ['itlogServices', 'ngTable', 'ui.bootstrap']);
-
+var itlog_app = angular.module('itlogApp', ['ngAnimate', 'itlogServices', 'ngTable', 'ui.bootstrap']);
 
 itlog_app.controller('my_contorller', function($scope, $modal, Resource, ngTableParams) {
 	$scope.tableColumns = tableColumns;
