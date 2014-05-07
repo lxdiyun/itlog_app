@@ -6,7 +6,7 @@ itlogApp.run(function($rootScope, RESOURCE_META){
 	$rootScope.RESOURCE_META = RESOURCE_META;
 });
 
-itlogApp.controller('my_contorller', function($scope, $modal, Resource, ngTableParams, RESOURCE_META) {
+itlogApp.controller('myContorller', function($scope, $modal, Resource, ngTableParams, RESOURCE_META) {
 	$scope.tableParams = new ngTableParams({
 		page: 1,            // show first page
 		count: 10,          // count per page
