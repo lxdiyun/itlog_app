@@ -13,7 +13,7 @@
     <div class="col-xs-12">
       <form class="form-inline" role="form">
         <label>显示的列:</label>
-        <div class="checkbox" ng-repeat="column in tableColumns">
+        <div class="checkbox" ng-repeat="column in RESOURCE_META">
           <label>
             <input type="checkbox" ng-model="column.visible"/> {{column.title}} 
           </label> 
@@ -33,7 +33,7 @@
 
       <table ng-table="tableParams" class="table table-hover">
         <tr ng-show="tableParams.total()">
-          <th ng-repeat="column in tableColumns"
+          <th ng-repeat="column in RESOURCE_META"
             ng-show="column.visible" 
             ng-class="{
             'sort-asc': tableParams.isSortBy(column.field, 'asc'),
@@ -46,7 +46,7 @@
           </th>
         </tr>
         <tr ng-repeat="resource in $data" ng-click="open(resource)" class="clickable table-row">
-          <td ng-repeat="column in tableColumns" ng-show="column.visible" sortable="column.field" class="table-data">
+          <td ng-repeat="column in RESOURCE_META" ng-show="column.visible" sortable="column.field" class="table-data">
             {{resource[column.field]}}
           </td> 
         </tr> 
