@@ -6,7 +6,7 @@ itlogApp.run(function($rootScope, RESOURCE_META){
 	$rootScope.RESOURCE_META = RESOURCE_META;
 });
 
-itlogApp.controller('myContorller', function($scope, $modal, Resource, ngTableParams, RESOURCE_META) {
+itlogApp.controller('myContorller', function($scope, $modal, Resource, ngTableParams) {
 	$scope.tableParams = new ngTableParams({
 		page: 1,            // show first page
 		count: 10,          // count per page
@@ -55,7 +55,7 @@ itlogApp.controller('myContorller', function($scope, $modal, Resource, ngTablePa
 	$scope.open = function (resource) {
 		$scope.selectedResouce = resource;
 		var modalInstance = $modal.open({
-			templateUrl: 'detail.html',
+			templateUrl: 'partials/resouce_detail.html',
 			controller: ModalInstanceCtrl,
 			resolve: {
 				resource: function () {
@@ -69,7 +69,7 @@ itlogApp.controller('myContorller', function($scope, $modal, Resource, ngTablePa
 var ModalInstanceCtrl = function($scope, $modalInstance, resource) {
 	$scope.resource = resource;
 
-	$scope.ok = function () {
+	$scope.close = function () {
 		$modalInstance.close();
 	};
 };
