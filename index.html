@@ -64,7 +64,7 @@
 <div class="modal-body">
     <dl class="dl-horizontal">
     <div>
-    <dt ng-repeat-start="field in tableColumns">{{field.title}}</dt>
+    <dt ng-repeat-start="field in RESOURCE_META">{{field.title}}</dt>
     <dd ng-repeat-end>{{resource[field.field]||' '}}</dd>
     </dl>
 </div>

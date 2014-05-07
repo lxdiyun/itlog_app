@@ -72,5 +72,4 @@ var ModalInstanceCtrl = function($scope, $modalInstance, resource) {
 	$scope.ok = function () {
 		$modalInstance.close();
 	};
-
 };
