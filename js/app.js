@@ -1,12 +1,12 @@
 'use strict';
 
-var itlogApp = angular.module('itlogApp', ['ngAnimate', 'itlogServices', 'ngTable', 'ui.bootstrap']);
+var ItlogApp = angular.module('itlogApp', ['ngAnimate', 'itlogServices', 'ngTable', 'ui.bootstrap', 'nvd3ChartDirectives']);
 
-itlogApp.run(function($rootScope, RESOURCE_META){
+ItlogApp.run(function($rootScope, RESOURCE_META){
 	$rootScope.RESOURCE_META = RESOURCE_META;
 });
 
-itlogApp.controller('myContorller', function($scope, $modal, Resource, ngTableParams) {
+ItlogApp.controller('myContorller', function($scope, $modal, Resource, ngTableParams) {
 	$scope.tableParams = new ngTableParams({
 		page: 1,            // show first page
 		count: 10,          // count per page
@@ -56,7 +56,7 @@ itlogApp.controller('myContorller', function($scope, $modal, Resource, ngTablePa
 		$scope.selectedResouce = resource;
 		var modalInstance = $modal.open({
 			templateUrl: 'partials/resouce_detail.html',
-			controller: ModalInstanceCtrl,
+			controller: DetailCtrl,
 			resolve: {
 				resource: function () {
 					return $scope.selectedResouce;
@@ -64,12 +64,35 @@ itlogApp.controller('myContorller', function($scope, $modal, Resource, ngTablePa
 			}
 		});
 	};
+
+	$scope.statistics = function () {
+		var modalInstance = $modal.open({
+			templateUrl: 'partials/statistics.html',
+			controller: 'statisticsCtrl',
+		});
+	};
 });
 
-var ModalInstanceCtrl = function($scope, $modalInstance, resource) {
+var DetailCtrl = function($scope, $modalInstance, resource) {
 	$scope.resource = resource;
 
 	$scope.close = function () {
 		$modalInstance.close();
 	};
 };
+
+ItlogApp.controller('statisticsCtrl', function($scope, $modalInstance) {
+	$scope.close = function () {
+		$modalInstance.close();
+	};
+
+	$scope.exampleData = [
+		{ key: "One", y: 5, x: 1 },
+		{ key: "Two", y: 2, x: 1 },
+		{ key: "Three", y: 9, x: 1 },
+		{ key: "Four", y: 7, x: 1 },
+		{ key: "Five", y: 4, x: 1 },
+		{ key: "Six", y: 3, x: 1 },
+		{ key: "Seven", y: 9, x: 1 }
+	];
+})

@@ -21,12 +21,20 @@
       </form>
     </div>
   </div>
-  <form class="form-inline" role="form">
-    <div class="form-group has-feedback">
-      <input type="text" class="form-control" placeholder="搜索" style="width:100%" ng-model="search" xng-clearable>
-      <span class="glyphicon glyphicon-remove form-control-feedback clickable" ng-click="cleanSearch()" ng-show="search.length"></span>
+  <div class="row">
+    <div class="col-xs-10">
+      <form class="form-inline" role="form">
+        <div class="form-group has-feedback">
+          <input type="text" class="form-control" placeholder="搜索" style="width:100%" ng-model="search" xng-clearable>
+          <span class="glyphicon glyphicon-remove form-control-feedback clickable" ng-click="cleanSearch()" ng-show="search.length"></span>
+        </div>
+      </form>
     </div>
-  </form>
+    <div class="col-xs-2 text-right">
+      <button type="submit" ng-click="statistics()" class="btn btn-success">统计</button>
+    </div>
+    
+  </div>
   <div class="row">
     <div class="col-xs-12 table-responsive">
       <label ng-show="tableParams.total()">数量：{{tableParams.total()}}</label>
