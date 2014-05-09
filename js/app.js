@@ -86,6 +86,8 @@ ItlogApp.controller('statisticsCtrl', function($scope, $modalInstance) {
 		$modalInstance.close();
 	};
 
+	$scope.cssStyle = "height:600px; width:100%;";
+
 	$scope.chart = {
 		"type": "PieChart",
 		"displayed": true,
