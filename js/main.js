@@ -9,10 +9,7 @@ require.config({
 		'restangular': '../bower_components/restangular/dist/restangular.min',
 		'ngTable': '../bower_components/ng-table/ng-table',
 		'uiBootstrap': '../bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
-		'd3': '../bower_components/d3/d3.min',
-		'nvd3': '../bower_components/nvd3/nv.d3.min',
-		'ngNvd3': '../bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives'
-
+		'angular_google_chart': '../bower_components/angular-google-chart/ng-google-chart'
 	},
 	shim: {
 		'angular': { exports: 'angular' },
@@ -20,11 +17,9 @@ require.config({
 		'restangular': { deps: ['angular', 'lodash'] },
 		'ngTable': { deps: ['angular'] },
 		'uiBootstrap': {deps: ['angular']},
-		'd3': { exports: 'd3' },
-		'nvd3': {deps: ['d3']},
-		'ngNvd3': {deps: ['angular', 'nvd3']},
+		'angular_google_chart': {deps: ['angular']},
 		'services': { deps: ['angular','restangular']},
-		'app': {deps: ['angular', 'ngAnimate', 'ngTable', 'uiBootstrap', 'ngNvd3', 'services']}
+		'app': {deps: ['angular', 'ngAnimate', 'ngTable', 'uiBootstrap', 'angular_google_chart', 'services']}
 	}
 });
 
