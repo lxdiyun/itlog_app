@@ -6,24 +6,56 @@ services.factory('Resource', function(Restangular){
 	return Restangular.service('resource');
 });
 
+services.factory('ResourceStatistic', function(Restangular){
+	return Restangular.service('resource_statistic');
+});
+
+function resouceInterceptor(data) {
+	var extractedData = data;
+	var results = data.results;
+	var count = data.count;
+
+	if (results) {
+		extractedData = results;
+	}
+	if (count) {
+		extractedData.count = data.count;
+	}
+
+	return extractedData;
+}
+
+function resouceStatisticInterceptor(data) {
+	var extractedData = [];
+	for (var i = 0; i < data.length; ++i) {
+		extractedData.push({"c": [
+			{ "v": data[i]['year'] },
+			{ "v": data[i]['count']}
+		]});
+	}
+
+	return extractedData;
+}
+
+var DATA_INTERCEPTORS = {
+	'resource': resouceInterceptor,
+	'resource_statistic': resouceStatisticInterceptor
+};
+
 services.config(function(RestangularProvider) {
-	RestangularProvider.setBaseUrl("http://192.168.64.128/website/itlog/api/");
-	//RestangularProvider.setBaseUrl("http://127.0.0.1:8000/itlog/api/");
+	//RestangularProvider.setBaseUrl("http://192.168.64.128/website/itlog/api/");
+	RestangularProvider.setBaseUrl("http://127.0.0.1:8000/itlog/api/");
 	
 	RestangularProvider.setRequestSuffix('/');
 
 	RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-		var extractedData;
-		// .. to look for getList operations
-		if (operation === "getList") {
-			extractedData = data.results;
-			extractedData.count = data.count;
-		} else {
-			extractedData = data;
+		if (what in DATA_INTERCEPTORS) {
+			return DATA_INTERCEPTORS[what](data);
 		}
-		return extractedData;
+		else {
+			return data;
+		}
     });
-
 });
 
 

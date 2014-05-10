@@ -81,128 +81,50 @@ var DetailCtrl = function($scope, $modalInstance, resource) {
 	};
 };
 
-ItlogApp.controller('statisticsCtrl', function($scope, $modalInstance) {
+ItlogApp.controller('statisticsCtrl', function($scope, $modalInstance, ResourceStatistic) {
 	$scope.close = function () {
 		$modalInstance.close();
 	};
 
+	ResourceStatistic.getList().then(function (data){
+		$scope.chart.data.rows = data;
+	});
+
 	$scope.cssStyle = "height:600px; width:100%;";
 
 	$scope.chart = {
-		"type": "PieChart",
+		"type": "ColumnChart",
 		"displayed": true,
 		"data": {
 			"cols": [
 				{
-				"id": "month",
-				"label": "Month",
+				"id": "year",
+				"label": "年份",
 				"type": "string",
 				"p": {}
 			},
 			{
-				"id": "laptop-id",
-				"label": "Laptop",
+				"id": "count",
+				"label": "数量",
 				"type": "number",
 				"p": {}
-			},
-			{
-				"id": "desktop-id",
-				"label": "Desktop",
-				"type": "number",
-				"p": {}
-			},
-			{
-				"id": "server-id",
-				"label": "Server",
-				"type": "number",
-				"p": {}
-			},
-			{
-				"id": "cost-id",
-				"label": "Shipping",
-				"type": "number"
 			}
 			],
-			"rows": [
-				{
-				"c": [
-					{
-					"v": "January"
-				},
-				{
-					"v": 19,
-					"f": "42 items"
-				},
-				{
-					"v": 12,
-					"f": "Ony 12 items"
-				},
-				{
-					"v": 7,
-					"f": "7 servers"
-				},
-				{
-					"v": 4
-				},
-				null
-				]
-			},
-			{
-				"c": [
-					{
-					"v": "February"
-				},
-				{
-					"v": 13
-				},
-				{
-					"v": 1,
-					"f": "1 unit (Out of stock this month)"
-				},
-				{
-					"v": 12
-				},
-				{
-					"v": 2
-				},
-				null
-				]
-			},
-			{
-				"c": [
-					{
-					"v": "March"
-				},
-				{
-					"v": 24
-				},
-				{
-					"v": 5
-				},
-				{
-					"v": 11
-				},
-				{
-					"v": 6
-				},
-				null
-				]
-			}
-			]
+			"rows": [ ]
 		},
 		"options": {
-			"title": "Sales per month",
+			"title": "数量与年份",
 			"isStacked": "true",
 			"fill": 20,
 			"displayExactValues": true,
 			"vAxis": {
-				"title": "Sales unit",
+				"title": "数量",
 				"gridlines": {
 					"count": 10
 				}
 			},
 			"hAxis": {
-				"title": "Date"
+				"title": "年份"
 			},
 			"tooltip": {
 				"isHtml": false
