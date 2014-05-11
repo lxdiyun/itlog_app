@@ -2,6 +2,23 @@
 
 var services = angular.module('itlogServices', ['restangular']);
 
+services.config(function(RestangularProvider) {
+	RestangularProvider.setBaseUrl("http://192.168.64.128/website/itlog/api/");
+	//RestangularProvider.setBaseUrl("http://127.0.0.1:8000/itlog/api/");
+	
+	RestangularProvider.setRequestSuffix('/');
+
+	RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+		if (what in DATA_INTERCEPTORS) {
+			return DATA_INTERCEPTORS[what](data);
+		}
+		else {
+			return data;
+		}
+    });
+});
+
+
 services.factory('Resource', function(Restangular){
 	return Restangular.service('resource');
 });
@@ -27,11 +44,20 @@ function resouceInterceptor(data) {
 
 function resouceStatisticInterceptor(data) {
 	var extractedData = [];
-	for (var i = 0; i < data.length; ++i) {
-		extractedData.push({"c": [
-			{ "v": data[i]['year'] },
-			{ "v": data[i]['count']}
-		]});
+	var rows = data['rows'];
+	var extractedColumns = [{ "id": "year", "label": "年份", "type": "string"}];
+
+	for (var year in rows) {
+		var extractedRow = [{ "v": year }];
+		var row = rows[year];
+		var value = row['count'];
+		var formated = "\n总数:" + value + "\n";
+		for (var k in row) {
+			if (k !== "count")
+			formated += k + ':' + row[k] + '\n'
+		}
+		extractedRow.push({"v": value, "f": formated});
+		extractedData.push({"c": extractedRow});
 	}
 
 	return extractedData;
@@ -41,23 +67,6 @@ var DATA_INTERCEPTORS = {
 	'resource': resouceInterceptor,
 	'resource_statistic': resouceStatisticInterceptor
 };
-
-services.config(function(RestangularProvider) {
-	//RestangularProvider.setBaseUrl("http://192.168.64.128/website/itlog/api/");
-	RestangularProvider.setBaseUrl("http://127.0.0.1:8000/itlog/api/");
-	
-	RestangularProvider.setRequestSuffix('/');
-
-	RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-		if (what in DATA_INTERCEPTORS) {
-			return DATA_INTERCEPTORS[what](data);
-		}
-		else {
-			return data;
-		}
-    });
-});
-
 
 services.constant('RESOURCE_META',[
 	{ title: '序号', field: 'number', visible: false },
