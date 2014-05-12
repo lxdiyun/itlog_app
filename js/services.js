@@ -72,8 +72,8 @@ var DATA_INTERCEPTORS = {
 
 services.constant('RESOURCE_META',[
 	{ title: '序号', field: 'number', visible: false },
-	{ title: '资产编号', field: 'sn', visible: true },
-	{ title: '分类号', field: 'catalog_id', visible: false },
+	{ title: '资产编号', field: 'sn', visible: true, filter: true },
+	{ title: '分类号', field: 'catalog_id', visible: false, filter: true },
 	{ title: '国标号', field: 'national_id', visible: false },
 	{ title: '资产名称', field: 'name', visible: true },
 	{ title: '资产型号', field: 'model', visible: true },

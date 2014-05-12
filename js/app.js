@@ -133,4 +133,9 @@ ItlogApp.controller('statisticsCtrl', function($scope, $modalInstance, ResourceS
 		"view": {}
 	};
 
+	$scope.selected = function (selectedItem) {
+		console.log(selectedItem);
+		$scope.selectedItem = selectedItem;
+	};
+
 });

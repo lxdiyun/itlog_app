@@ -39,7 +39,8 @@
     <div class="col-xs-12 table-responsive">
       <label ng-show="tableParams.total()">数量：{{tableParams.total()}}</label>
 
-      <table ng-table="tableParams" class="table table-hover">
+      <table ng-table="tableParams" show-filter="true" class="table table-hover">
+        <thead>
         <tr ng-show="tableParams.total()">
           <th ng-repeat="column in RESOURCE_META"
             ng-show="column.visible" 
@@ -48,16 +49,25 @@
             'sort-desc': tableParams.isSortBy(column.field, 'desc')
             }"
             ng-click="tableParams.sorting(column.field, tableParams.isSortBy(column.field, 'desc') ? 'asc' : 'desc')"
+            filter="{ 'name': 'text' }" 
             class="text-center sortable table-data"
             >
             <div class="ng-scope ng-binding">{{column.title}}</div>
           </th>
         </tr>
+        <tr ng-show="tableParams.total()">
+          <th ng-repeat="column in RESOURCE_META" ng-show="column.visible" class="text-center sortable">
+            <input ng-if="column.filter" type="text" class="form-control" ng-model="filter_dict[column.field] "/>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
         <tr ng-repeat="resource in $data" ng-click="open(resource)" class="clickable table-row">
-          <td ng-repeat="column in RESOURCE_META" ng-show="column.visible" sortable="column.field" class="table-data">
+          <td ng-repeat="column in RESOURCE_META" ng-show="column.visible" sortable="column.field" filter="{ 'name': 'text' }" class="table-data">
             {{resource[column.field]}}
           </td> 
         </tr> 
+        </tbody>
       </table>
     </div>
   </div>

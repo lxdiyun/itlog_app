@@ -8,7 +8,7 @@
 </div>
 
 <div class="modal-body">
-  <select id="chartType" ng-model="chart.type" ng-change="chartSelectionChange()" class="form-control" >
+  <select id="chartType" ng-model="chart.type" ng-change="chartSelectionChange()" class="form-control">
     <option value="AreaChart">AreaChart</option>
     <option value="PieChart">PieChart</option>
     <option value="ColumnChart">ColumnChart</option>
@@ -16,5 +16,9 @@
     <option value="Table">Table</option>
     <option value="BarChart">BarChart</option>
   </select>
-  <div google-chart chart="chart" style="{{cssStyle}}"></div>
+  <div google-chart chart="chart" select="selected" style="{{cssStyle}}"></div>
+  <div class="">
+    {{ selectedItem }}
+    
+  </div>
 </div>
