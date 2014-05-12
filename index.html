@@ -3,6 +3,7 @@
 <meta charset="utf-8">
 <title>ITLog</title>  
 <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css"></link>
+<link rel="stylesheet" type="text/css" href="bower_components/ng-table/ng-table.css"></link>
 
 <link rel="stylesheet" type="text/css" href="css/app.css"></link>
 </head>
@@ -49,7 +50,7 @@
             ng-click="tableParams.sorting(column.field, tableParams.isSortBy(column.field, 'desc') ? 'asc' : 'desc')"
             class="text-center sortable table-data"
             >
-            {{column.title}}
+            <div class="ng-scope ng-binding">{{column.title}}</div>
           </th>
         </tr>
         <tr ng-repeat="resource in $data" ng-click="open(resource)" class="clickable table-row">

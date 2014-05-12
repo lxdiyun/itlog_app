@@ -106,8 +106,7 @@ ItlogApp.controller('statisticsCtrl', function($scope, $modalInstance, ResourceS
 			{
 				"id": "count",
 				"label": "数量",
-				"type": "number",
-				"p": {"className": 'text-align-left'}
+				"type": "number"
 			}
 			],
 			"rows": [ ]

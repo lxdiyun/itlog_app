@@ -56,7 +56,9 @@ function resouceStatisticInterceptor(data) {
 			if (k !== "count")
 			formated += k + ':' + row[k] + '\n'
 		}
-		extractedRow.push({"v": value, "f": formated});
+		extractedRow.push({"v": value, "f": formated,
+				  "p": {"className": 'text-align-left'}
+		});
 		extractedData.push({"c": extractedRow});
 	}
 
