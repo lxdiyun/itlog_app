@@ -6,7 +6,14 @@ ItlogApp.run(function($rootScope, RESOURCE_META){
 	$rootScope.RESOURCE_META = RESOURCE_META;
 });
 
-ItlogApp.controller('myContorller', function($scope, $modal, Resource, ngTableParams) {
+ItlogApp.controller('mainContorller', function($scope, $modal, Resource, ngTableParams) {
+	$scope.filterDict = {};
+	$scope.$watch('filterDict', function(newValue, oldValue) {
+		if (JSON.stringify(newValue) !==  JSON.stringify(oldValue)) {
+			$scope.tableParams.page(1);
+			$scope.tableParams.reload();
+		}
+	}, true);
 	$scope.tableParams = new ngTableParams({
 		page: 1,            // show first page
 		count: 10,          // count per page
@@ -15,9 +22,13 @@ ItlogApp.controller('myContorller', function($scope, $modal, Resource, ngTablePa
 		total: 0, // length of data
 		getData: function($defer, params) {
 			var urlParams = {page:params.page(), page_size: params.count()};
-
 			var sorting = params.sorting();
 			var ordering = [];
+
+			for (var filed in $scope.filterDict) {
+				urlParams[filed] = $scope.filterDict[filed];
+			}
+
 			for (var key in sorting) {
 				var order = sorting[key];
 				if (order === 'desc') {
@@ -40,16 +51,29 @@ ItlogApp.controller('myContorller', function($scope, $modal, Resource, ngTablePa
 		}
 	}); 
 
+	$scope.needTableScroll = false;
+	$scope.$watch('RESOURCE_META', function(newValue, oldValue) {
+		var tableDivWidth = $("#table-div").width();
+		var tableWidth = document.querySelector('#table').clientWidth;
+		if (tableWidth > tableDivWidth) {
+			$scope.needTableScroll = true;
+		}
+		else {
+			$scope.needTableScroll = false;
+		}
+		console.log(tableDivWidth);
+		console.log(tableWidth);
+
+	}, true);
+
 	$scope.cleanSearch =  function () {
 		$scope.tableParams.page(1);
 		$scope.search = '';
 		$scope.tableParams.reload();
 	};
 	$scope.$watch('search', function(newValue, oldValue) {
-		if (newValue !== oldValue) {
-			$scope.tableParams.page(1);
-			$scope.tableParams.reload();
-		}
+		$scope.tableParams.page(1);
+		$scope.tableParams.reload();
 	});
 
 	$scope.open = function (resource) {
@@ -69,6 +93,7 @@ ItlogApp.controller('myContorller', function($scope, $modal, Resource, ngTablePa
 		var modalInstance = $modal.open({
 			templateUrl: 'partials/statistics.html',
 			controller: 'statisticsCtrl',
+			size: "lg",
 		});
 	};
 });
@@ -88,26 +113,19 @@ ItlogApp.controller('statisticsCtrl', function($scope, $modalInstance, ResourceS
 
 	ResourceStatistic.getList().then(function (data){
 		$scope.chart.data.rows = data;
+		$scope.chart.orignalData = data.orignalData;
 	});
 
-	$scope.cssStyle = "height:600px; width:100%;";
+	$scope.chartCssStyle = "height:600px; width:100%;";
+	$scope.selectedChartCssStyle = "height:400px; width:100%;";
 
 	$scope.chart = {
-		"type": "ColumnChart",
+		"type": "BarChart",
 		"displayed": true,
 		"data": {
 			"cols": [
-				{
-				"id": "year",
-				"label": "年份",
-				"type": "string",
-				"p": {}
-			},
-			{
-				"id": "count",
-				"label": "数量",
-				"type": "number"
-			}
+				{ "id": "year", "label": "年份", "type": "string" },
+				{ "id": "count", "label": "数量", "type": "number" }
 			],
 			"rows": [ ]
 		},
@@ -116,26 +134,52 @@ ItlogApp.controller('statisticsCtrl', function($scope, $modalInstance, ResourceS
 			"isStacked": "true",
 			"fill": 20,
 			"displayExactValues": true,
-			"vAxis": {
-				"title": "数量",
-				"gridlines": {
-					"count": 10
-				}
-			},
-			"hAxis": {
-				"title": "年份"
-			},
-			"tooltip": {
-				"isHtml": false
-			}
+			"vAxis": { "title": "数量", "gridlines": { "count": 10 } },
+			"hAxis": { "title": "年份" },
+			"tooltip": { "isHtml": false }
+		},
+		"formatters": {},
+		"view": {}
+	};
+
+	$scope.selectedChart = {
+		"type": "PieChart",
+		"displayed": true,
+		"data": {
+			"cols": [
+				{ "id": "type", "label": "种类", "type": "string" },
+				{ "id": "count", "label": "数量", "type": "number" }
+			],
+			"rows": [ ]
+		},
+		"options": {
+			"title": "数量与种类",
+			"isStacked": "true",
+			"fill": 20,
+			"displayExactValues": true,
+			"vAxis": { "title": "数量" },
+			"hAxis": { "title": "种类" },
+			"tooltip": { "isHtml": false }
 		},
 		"formatters": {},
 		"view": {}
 	};
 
 	$scope.selected = function (selectedItem) {
-		console.log(selectedItem);
+		var year = $scope.chart.data.rows[selectedItem.row].c[0].v;
+		var chart = $scope.selectedChart;
+		var itemsCount = $scope.chart.orignalData.rows[year];
+		var rows = [];
+		for (var item in itemsCount) {
+			if ("count" != item) {
+				rows.push({c: [
+					{"v": item + " X " + itemsCount[item] },
+					{"v": itemsCount[item]}
+				]});
+			}
+		}
+		chart.data.rows = rows;
+		chart.options.title =  year + "年数量与种类统计(总数:" + itemsCount.count + ")"
 		$scope.selectedItem = selectedItem;
 	};
-
 });

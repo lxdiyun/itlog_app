@@ -6,7 +6,19 @@
   cursor: pointer;
 }
 
+.horzation-scroll {
+  overflow-x: scroll;
+}
 
+.table-div th, .table-div td {
+  white-space: nowrap;
+}
+
+
+
+/*****************************************************************************
+ * below codes are animation
+ */
 .table-data.ng-hide-add, .table-data.ng-hide-remove {
   -webkit-transition: 400ms cubic-bezier(0.175, 0.885, 0.320, 1.275) all;
   -moz-transition: 400ms cubic-bezier(0.175, 0.885, 0.320, 1.275) all;

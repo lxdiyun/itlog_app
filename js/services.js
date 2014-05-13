@@ -45,22 +45,15 @@ function resouceInterceptor(data) {
 function resouceStatisticInterceptor(data) {
 	var extractedData = [];
 	var rows = data['rows'];
-	var extractedColumns = [{ "id": "year", "label": "年份", "type": "string"}];
 
 	for (var year in rows) {
-		var extractedRow = [{ "v": year }];
-		var row = rows[year];
-		var value = row['count'];
-		var formated = "\n总数:" + value + "\n";
-		for (var k in row) {
-			if (k !== "count")
-			formated += k + ':' + row[k] + '\n'
-		}
-		extractedRow.push({"v": value, "f": formated,
-				  "p": {"className": 'text-align-left'}
-		});
-		extractedData.push({"c": extractedRow});
+		extractedData.push({"c": [ 
+			{ "v": year },
+			{ "v": rows[year].count, "p": {"className": 'text-align-left'}}
+		]} );
 	}
+
+	extractedData.orignalData = data;
 
 	return extractedData;
 }
@@ -72,10 +65,10 @@ var DATA_INTERCEPTORS = {
 
 services.constant('RESOURCE_META',[
 	{ title: '序号', field: 'number', visible: false },
-	{ title: '资产编号', field: 'sn', visible: true, filter: true },
+	{ title: '资产编号', field: 'sn', visible: true },
 	{ title: '分类号', field: 'catalog_id', visible: false, filter: true },
-	{ title: '国标号', field: 'national_id', visible: false },
-	{ title: '资产名称', field: 'name', visible: true },
+	{ title: '国标号', field: 'national_id', visible: false, filter: true },
+	{ title: '资产名称', field: 'name', visible: true, filter: true},
 	{ title: '资产型号', field: 'model', visible: true },
 	{ title: '资产规格', field: 'specification', visible: true },
 	{ title: '单价', field: 'price', visible: true },
@@ -88,7 +81,7 @@ services.constant('RESOURCE_META',[
 	{ title: '地点', field: 'location', visible: false },
 	{ title: '购买日期', field: 'buy_date', visible: true },
 	{ title: '经费科目', field: 'funding_source', visible: false },
-	{ title: '入账日期', field: 'record_date', visible: true },
+	{ title: '入账日期', field: 'record_date', visible: true, filter: true },
 	{ title: '国家', field: 'country', visible: false },
 	{ title: '供应商', field: 'provider', visible: false },
 	{ title: '折旧年限', field: 'depreciated_year', visible: false },

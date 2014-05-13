@@ -16,9 +16,9 @@
     <option value="Table">Table</option>
     <option value="BarChart">BarChart</option>
   </select>
-  <div google-chart chart="chart" select="selected(selectedItem)" style="{{cssStyle}}"></div>
-  <div class="">
-    {{ selectedItem }}
+  <div google-chart chart="chart" select="selected(selectedItem)" style="{{chartCssStyle}}"></div>
+  <div ng-if="selectedItem">
+  <div google-chart chart="selectedChart" style="{{selectedChartCssStyle}}"></div>
     
   </div>
 </div>

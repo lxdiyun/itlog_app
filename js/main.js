@@ -3,6 +3,7 @@
 
 require.config({
 	paths: {
+		'jquery': '../bower_components/jquery/dist/jquery.min',
 		'angular': '../bower_components/angular/angular.min',
 		'ngAnimate': '../bower_components/angular-animate/angular-animate.min',
 		'lodash': '../bower_components/lodash/dist/lodash.underscore.min',
@@ -12,6 +13,7 @@ require.config({
 		'angular_google_chart': '../bower_components/angular-google-chart/ng-google-chart'
 	},
 	shim: {
+		'jquery': { exports: 'jquery' },
 		'angular': { exports: 'angular' },
 		'ngAnimate': { deps:['angular'] },
 		'restangular': { deps: ['angular', 'lodash'] },
@@ -19,7 +21,7 @@ require.config({
 		'uiBootstrap': {deps: ['angular']},
 		'angular_google_chart': {deps: ['angular']},
 		'services': { deps: ['angular','restangular']},
-		'app': {deps: ['angular', 'ngAnimate', 'ngTable', 'uiBootstrap', 'angular_google_chart', 'services']}
+		'app': {deps: ['jquery', 'angular', 'ngAnimate', 'ngTable', 'uiBootstrap', 'angular_google_chart', 'services']}
 	}
 });
 

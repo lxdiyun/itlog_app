@@ -2,6 +2,7 @@
 	"name": "itlog",
 	"version": "0.0.0",
 	"dependencies": {
+		"jquery": "2",
 		"requirejs": "2.1",
 		"angular": "1.2.16",
 		"angular-route": "1.2.16",
