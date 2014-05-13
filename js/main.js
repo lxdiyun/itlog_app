@@ -13,7 +13,6 @@ require.config({
 		'angular_google_chart': '../bower_components/angular-google-chart/ng-google-chart'
 	},
 	shim: {
-		'jquery': { exports: 'jquery' },
 		'angular': { exports: 'angular' },
 		'ngAnimate': { deps:['angular'] },
 		'restangular': { deps: ['angular', 'lodash'] },

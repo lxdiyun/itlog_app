@@ -52,18 +52,15 @@ ItlogApp.controller('mainContorller', function($scope, $modal, Resource, ngTable
 	}); 
 
 	$scope.needTableScroll = false;
-	$scope.$watch('RESOURCE_META', function(newValue, oldValue) {
+	$scope.$watch(function (){ return $("#table").width(); }, function(newValue, oldValue) {
 		var tableDivWidth = $("#table-div").width();
-		var tableWidth = document.querySelector('#table').clientWidth;
+		var tableWidth = newValue;
 		if (tableWidth > tableDivWidth) {
 			$scope.needTableScroll = true;
 		}
 		else {
 			$scope.needTableScroll = false;
 		}
-		console.log(tableDivWidth);
-		console.log(tableWidth);
-
 	}, true);
 
 	$scope.cleanSearch =  function () {
