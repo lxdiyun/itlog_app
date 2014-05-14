@@ -1,10 +1,10 @@
 <link rel="stylesheet" type="text/css" href="bower_components/nvd3/nv.d3.css"></link>
 
 <div class="modal-header">
-    <button ng-click="close()" class="close" aria-hidden="true" type="button">
-      ×
-    </button>
-    <h3 class="modal-title">统计信息</h3>
+  <button ng-click="close()" class="close" aria-hidden="true" type="button">
+    ×
+  </button>
+  <h3 class="modal-title">统计信息</h3>
 </div>
 
 <div class="modal-body">
@@ -18,7 +18,8 @@
   </select>
   <div google-chart chart="chart" select="selected(selectedItem)" style="{{chartCssStyle}}"></div>
   <div ng-if="selectedItem">
-  <div google-chart chart="selectedChart" style="{{selectedChartCssStyle}}"></div>
-    
+    <div google-chart chart="selectedChart" style="{{selectedChartCssStyle}}"></div>
   </div>
+  <highchart id="chart1" config="chartConfig" class="span10"></highchart>
+
 </div>

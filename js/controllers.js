@@ -99,23 +99,38 @@ var DetailCtrl = function($scope, $modalInstance, resource) {
 };
 
 ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, ResourceStatistic) {
+	$scope.chartCssStyle = "height:600px; width:100%;";
+	$scope.selectedChartCssStyle = "height:400px; width:100%;";
+	$scope.chart = CHART_INIT;
+	$scope.selectedChart = SELECTED_CHART_INIT;
+	$scope.selected = select_chart;
+
 	$scope.close = function () {
 		$modalInstance.close();
 	};
 
+	$scope.chartConfig = {
+		options: { chart: { type: 'bar' } },
+		series: [],
+		title: { text: '数量与年份' },
+		loading: false
+	}
+
 	ResourceStatistic.getList().then(function (data){
 		$scope.chart.data.rows = data;
 		$scope.chart.orignalData = data.orignalData;
+		var rows = data.orignalData.rows;
+		var data = [];
+		var categories = [];
+		for (var year in rows) {
+			categories.push(year);
+			data.push(rows[year].count);
+		}
+		$scope.chartConfig.xAxis = {categories: categories};
+		$scope.chartConfig.series = [{name: '数量', data: data}];
 	});
 
-	$scope.chartCssStyle = "height:600px; width:100%;";
-	$scope.selectedChartCssStyle = "height:400px; width:100%;";
-
-	$scope.chart = CHART_INIT;
-
-	$scope.selectedChart = SELECTED_CHART_INIT;
-
-	$scope.selected = function (selectedItem) {
+	function select_chart(selectedItem) {
 		var year = $scope.chart.data.rows[selectedItem.row].c[0].v;
 		var chart = $scope.selectedChart;
 		var itemsCount = $scope.chart.orignalData.rows[year];
