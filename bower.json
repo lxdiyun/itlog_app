@@ -1,21 +1,23 @@
 {
-	"name": "itlog",
-	"version": "0.0.0",
-	"dependencies": {
-		"jquery": "2",
-		"requirejs": "2.1",
-		"angular": "1.2.16",
-		"angular-route": "1.2.16",
-		"angular-animate": "1.2.16",
-		"restangular ": "1.4.0",
-		"ng-grid": "2.0",
-		"angular-bootstrap": "0.10",
-		"bootstrap": "3",
-		"angular-bootstrap": "0.11",
-		"ng-table": "0.3.1",
-		"nvd3": "1.1.15-beta",
-		"angular-google-chart": "0.0.8",
-		"highcharts-release": "4",
-		"highcharts-ng": "0.0.6"
-	}
+  "name": "itlog",
+  "version": "0.0.0",
+  "dependencies": {
+    "jquery": "2",
+    "requirejs": "2.1",
+    "angular": "1.2.16",
+    "angular-route": "1.2.16",
+    "angular-animate": "1.2.16",
+    "restangular ": "1.4.0",
+    "ng-grid": "2.0",
+    "angular-bootstrap": "0.11",
+    "bootstrap": "3",
+    "ng-table": "0.3.1",
+    "nvd3": "1.1.15-beta",
+    "angular-google-chart": "0.0.8",
+    "highcharts-release": "4",
+    "highcharts-ng": "0.0.6"
+  },
+  "resolutions": {
+    "angular": "1.2.16"
+  }
 }

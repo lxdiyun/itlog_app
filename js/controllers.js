@@ -110,10 +110,13 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 	};
 
 	$scope.chartConfig = {
-		options: { chart: { type: 'bar' } },
+		options: { 
+			chart: { type: 'bar' },
+			plotOptions: { series: { allowPointSelect: true, cursor: 'pointer' } } 
+		},
 		series: [],
 		title: { text: '数量与年份' },
-		loading: false
+		loading: true,
 	}
 
 	ResourceStatistic.getList().then(function (data){
@@ -124,10 +127,11 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 		var categories = [];
 		for (var year in rows) {
 			categories.push(year);
-			data.push(rows[year].count);
+			data.push([year, rows[year].count]);
 		}
 		$scope.chartConfig.xAxis = {categories: categories};
 		$scope.chartConfig.series = [{name: '数量', data: data}];
+		$scope.chartConfig.loading = false;
 	});
 
 	function select_chart(selectedItem) {
