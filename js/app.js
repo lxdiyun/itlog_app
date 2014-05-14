@@ -52,8 +52,8 @@ ItlogApp.controller('mainContorller', function($scope, $modal, Resource, ngTable
 	}); 
 
 	$scope.needTableScroll = false;
-	$scope.$watch(function (){ return $("#table").width(); }, function(newValue, oldValue) {
-		var tableDivWidth = $("#table-div").width();
+	$scope.$watch(function (){ return document.getElementById('table').clientWidth; }, function(newValue, oldValue) {
+		var tableDivWidth = $('#table-div').width();
 		var tableWidth = newValue;
 		if (tableWidth > tableDivWidth) {
 			$scope.needTableScroll = true;
@@ -61,7 +61,13 @@ ItlogApp.controller('mainContorller', function($scope, $modal, Resource, ngTable
 		else {
 			$scope.needTableScroll = false;
 		}
-	}, true);
+	});
+
+	$('.test').resize(function () {
+		console.log("jquery check ");
+		var tableWidth = $("#table").width();
+		console.log("jquery check " + tableWidth);
+	});
 
 	$scope.cleanSearch =  function () {
 		$scope.tableParams.page(1);
