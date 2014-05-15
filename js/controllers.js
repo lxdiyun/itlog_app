@@ -118,17 +118,17 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 		var year = this.name;
 		if (year) {
 			var chart = $scope.selectedChartConfig;
-			var itemsCount = $scope.orignalData.rows[year];
+			var items = $scope.orignalData[year];
 			var data = [];
-			for (var item in itemsCount) {
-				if ("count" != item) {
-					var count = itemsCount[item];
-					data.push([item + " X " + count, count]);
+			for (var name in items) {
+				if ("total" != name) {
+					var count = items[name].count;
+					data.push([name + " X " + count, count]);
 				}
 			}
 
 			chart.series = [{name: '数量', data: data}];
-			chart.title.text =  year + "年数量与种类统计(总数:" + itemsCount.count + ")"
+			chart.title.text =  year + "年数量与种类统计(总数:" + items.total.count + ")"
 			chart.loading = false;
 
 			$scope.selectedYear = year;
@@ -158,7 +158,7 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 
 	ResourceStatistic.getList(urlParams).then(function (data){
 		var chart = $scope.chartConfig;
-		var rows = data.orignalData.rows;
+		var rows = data.orignalData;
 		var countData = [];
 		var categories = [];
 
@@ -166,7 +166,7 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 
 		for (var year in rows) {
 			categories.push(year);
-			countData.push([year, rows[year].count]);
+			countData.push([year, rows[year].total.count]);
 		}
 
 		chart.xAxis = {categories: categories};
