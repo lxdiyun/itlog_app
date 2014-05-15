@@ -6,8 +6,8 @@
   cursor: pointer;
 }
 
-.horzation-scroll {
-  overflow-x: scroll;
+.table-div {
+  overflow-x: auto
 }
 
 .table-div th, .table-div td {

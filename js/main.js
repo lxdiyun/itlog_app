@@ -11,6 +11,7 @@ require.config({
 		'ngTable': '../bower_components/ng-table/ng-table',
 		'uiBootstrap': '../bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
 		'highcharts': '../bower_components/highcharts-release/highcharts',
+		'highcharts-export': '../bower_components/highcharts-release/modules/exporting',
 		'highcharts-ng': '../bower_components/highcharts-ng/dist/highcharts-ng.min',
 	},
 	shim: {
@@ -19,10 +20,10 @@ require.config({
 		'restangular': { deps: ['angular', 'lodash'] },
 		'ngTable': { deps: ['angular'] },
 		'uiBootstrap': {deps: ['angular']},
-		'highcharts-ng': {deps: ['highcharts', 'jquery']},
+		'highcharts-ng': {deps: [ 'jquery', 'highcharts', 'highcharts-export']},
 		'services': { deps: ['angular','restangular']},
 		'controllers': { deps: ['app']},
-		'app': {deps: ['jquery', 'angular', 'ngAnimate', 'ngTable', 'uiBootstrap', 'highcharts-ng', 'services']}
+		'app': {deps: ['angular', 'ngAnimate', 'ngTable', 'uiBootstrap', 'highcharts-ng', 'services']}
 	}
 });
 

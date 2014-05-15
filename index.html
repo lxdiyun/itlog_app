@@ -15,7 +15,7 @@
         <label>显示的列:</label>
         <div class="checkbox" ng-repeat="column in RESOURCE_META">
           <label>
-            <input type="checkbox" ng-model="column.visible"/> {{column.title}} 
+            <input ng-model="column.visible" type="checkbox"/> {{column.title}} 
           </label> 
         </div>
       </form>
@@ -36,7 +36,7 @@
     
   </div>
   <div class="row">
-    <div  ng-class="{'horzation-scroll': needTableScroll}" id="table-div" class="col-xs-12 table-responsive table-div">
+    <div  id="table-div" class="col-xs-12 table-responsive table-div">
       <label ng-show="tableParams.total()">数量：{{tableParams.total()}}</label>
 
       <table ng-table="tableParams" show-filter="true" id="table" class="table table-hover">
