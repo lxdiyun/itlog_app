@@ -20,6 +20,7 @@ require.config({
 		'restangular': { deps: ['angular', 'lodash'] },
 		'ngTable': { deps: ['angular'] },
 		'uiBootstrap': {deps: ['angular']},
+		'highcharts-export': {deps: ['highcharts']},
 		'highcharts-ng': {deps: [ 'jquery', 'highcharts', 'highcharts-export']},
 		'services': { deps: ['angular','restangular']},
 		'controllers': { deps: ['app']},

@@ -93,22 +93,22 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 			plotOptions: { series: {
 				allowPointSelect: true,
 				cursor: 'pointer',  
-				point: { events: { select: select_chart } },  
-			} } 
+				point: { events: { select: select_chart }},  
+			}}
 		},
 		series: [],
 		title: { text: '数量与年份' },
-		yAxis: { title: { text: '值' } },
-		xAxis: { title: { text: '年份' } },
+		yAxis: { title: { text: '值' }},
+		xAxis: { title: { text: '年份' }},
 		loading: true,
 	};
 
 	var SELECTED_CHART_INIT = {
-		options: { chart: { type: 'pie' } },
+		options: { chart: { type: 'pie' }},
 		series: [],
 		title: { text: '数量与种类' },
-		yAxis: { title: { text: '值' } },
-		xAxis: { title: { text: '种类' } },
+		yAxis: { title: { text: '值' }},
+		xAxis: { title: { text: '种类' }},
 		loading: true,
 	};
 
@@ -144,18 +144,19 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 
 	ResourceStatistic.getList().then(function (data){
 		var chart = $scope.chartConfig;
-		$scope.orignalData = data.orignalData;
 		var rows = data.orignalData.rows;
-		var data = [];
+		var countData = [];
 		var categories = [];
+
+		$scope.orignalData = data.orignalData;
 
 		for (var year in rows) {
 			categories.push(year);
-			data.push([year, rows[year].count]);
+			countData.push([year, rows[year].count]);
 		}
 
 		chart.xAxis = {categories: categories};
-		chart.series = [{name: '数量', data: data}];
+		chart.series = [{name: '数量', data: countData }];
 		chart.loading = false;
 	});
 });

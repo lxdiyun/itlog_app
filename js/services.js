@@ -44,14 +44,6 @@ function resouceInterceptor(data) {
 
 function resouceStatisticInterceptor(data) {
 	var extractedData = [];
-	var rows = data['rows'];
-
-	for (var year in rows) {
-		extractedData.push({"c": [ 
-			{ "v": year },
-			{ "v": rows[year].count, "p": {"className": 'text-align-left'}}
-		]} );
-	}
 
 	extractedData.orignalData = data;
 
