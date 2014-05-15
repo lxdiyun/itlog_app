@@ -10,7 +10,6 @@ require.config({
 		'restangular': '../bower_components/restangular/dist/restangular.min',
 		'ngTable': '../bower_components/ng-table/ng-table',
 		'uiBootstrap': '../bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
-		'angular_google_chart': '../bower_components/angular-google-chart/ng-google-chart',
 		'highcharts': '../bower_components/highcharts-release/highcharts',
 		'highcharts-ng': '../bower_components/highcharts-ng/dist/highcharts-ng.min',
 	},
@@ -20,11 +19,10 @@ require.config({
 		'restangular': { deps: ['angular', 'lodash'] },
 		'ngTable': { deps: ['angular'] },
 		'uiBootstrap': {deps: ['angular']},
-		'angular_google_chart': {deps: ['angular']},
-		'highcharts-ng': {deps: ['highcharts']},
+		'highcharts-ng': {deps: ['highcharts', 'jquery']},
 		'services': { deps: ['angular','restangular']},
 		'controllers': { deps: ['app']},
-		'app': {deps: ['jquery', 'angular', 'ngAnimate', 'ngTable', 'uiBootstrap', 'angular_google_chart', 'highcharts-ng', 'services']}
+		'app': {deps: ['jquery', 'angular', 'ngAnimate', 'ngTable', 'uiBootstrap', 'highcharts-ng', 'services']}
 	}
 });
 

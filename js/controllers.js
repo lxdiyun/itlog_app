@@ -101,9 +101,6 @@ var DetailCtrl = function($scope, $modalInstance, resource) {
 ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, ResourceStatistic) {
 	$scope.chartCssStyle = "height:600px; width:100%;";
 	$scope.selectedChartCssStyle = "height:400px; width:100%;";
-	$scope.chart = CHART_INIT;
-	$scope.selectedChart = SELECTED_CHART_INIT;
-	$scope.selected = select_chart;
 
 	$scope.close = function () {
 		$modalInstance.close();
@@ -112,44 +109,68 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 	$scope.chartConfig = {
 		options: { 
 			chart: { type: 'bar' },
-			plotOptions: { series: { allowPointSelect: true, cursor: 'pointer' } } 
+			plotOptions: { series: {
+				allowPointSelect: true,
+				cursor: 'pointer',  
+				point: { events: { select: select_chart } },  
+			} } 
 		},
 		series: [],
 		title: { text: '数量与年份' },
+		yAxis: { title: { text: '值' } },
+		xAxis: { title: { text: '年份' } },
+		loading: true,
+	}
+
+	$scope.selectedChartConfig = {
+		options: { 
+			chart: { type: 'pie' },
+		},
+		series: [],
+		title: { text: '数量与种类' },
+		yAxis: { title: { text: '值' } },
+		xAxis: { title: { text: '种类' } },
 		loading: true,
 	}
 
 	ResourceStatistic.getList().then(function (data){
-		$scope.chart.data.rows = data;
-		$scope.chart.orignalData = data.orignalData;
+		var chart = $scope.chartConfig;
+		$scope.orignalData = data.orignalData;
 		var rows = data.orignalData.rows;
 		var data = [];
 		var categories = [];
+
 		for (var year in rows) {
 			categories.push(year);
 			data.push([year, rows[year].count]);
 		}
-		$scope.chartConfig.xAxis = {categories: categories};
-		$scope.chartConfig.series = [{name: '数量', data: data}];
-		$scope.chartConfig.loading = false;
+
+		chart.xAxis = {categories: categories};
+		chart.series = [{name: '数量', data: data}];
+		chart.loading = false;
 	});
 
-	function select_chart(selectedItem) {
-		var year = $scope.chart.data.rows[selectedItem.row].c[0].v;
-		var chart = $scope.selectedChart;
-		var itemsCount = $scope.chart.orignalData.rows[year];
-		var rows = [];
-		for (var item in itemsCount) {
-			if ("count" != item) {
-				rows.push({c: [
-					{"v": item + " X " + itemsCount[item] },
-					{"v": itemsCount[item]}
-				]});
+	function select_chart(e) {
+		var year = this.name;
+		if (year) {
+			var chart = $scope.selectedChartConfig;
+			var itemsCount = $scope.orignalData.rows[year];
+			var data = [];
+			for (var item in itemsCount) {
+				if ("count" != item) {
+					var count = itemsCount[item];
+					data.push([item + " X " + count, count]);
+				}
 			}
+
+			chart.series = [{name: '数量', data: data}];
+			chart.title.text =  year + "年数量与种类统计(总数:" + itemsCount.count + ")"
+			chart.loading = false;
+
+			$scope.selectedYear = year;
+
+			$scope.$digest();
 		}
-		chart.data.rows = rows;
-		chart.options.title =  year + "年数量与种类统计(总数:" + itemsCount.count + ")"
-		$scope.selectedItem = selectedItem;
 	};
 });
 

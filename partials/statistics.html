@@ -17,5 +17,8 @@
     <option value="spline"> Smooth line </option>
   </select>
   <br></br>
-  <highchart id="chart1" config="chartConfig" style="width: 800px; height: 400px;"></highchart>
+  <highchart id="chart" config="chartConfig" style="width: 800px; height: 400px;"></highchart>
+  <div ng-if="selectedYear">
+    <highchart id="selectedChart" config="selectedChartConfig" style="width: 800px; height: 400px;"></highchart>
+  </div>
 </div>
