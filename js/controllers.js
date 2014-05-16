@@ -89,9 +89,9 @@ var DetailCtrl = function($scope, $modalInstance, resource) {
 };
 
 ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, ResourceStatistic, filterDict, searchString) {
-	var CHART_INIT = {
+	var COUNT_CHART_INIT = {
 		options: { 
-			chart: { type: 'spline' },
+			chart: { type: "spline" },
 			plotOptions: { series: {
 				allowPointSelect: true,
 				cursor: 'pointer',  
@@ -105,7 +105,23 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 		loading: true,
 	};
 
-	var SELECTED_CHART_INIT = {
+	var PRICE_CHART_INIT = {
+		options: { 
+			chart: { type: "spline" },
+			plotOptions: { series: {
+				allowPointSelect: true,
+				cursor: 'pointer',  
+				point: { events: { select: select_chart }},  
+			}}
+		},
+		series: [],
+		title: { text: '价格与年份' },
+		yAxis: { title: { text: '值' }},
+		xAxis: { title: { text: '年份' }},
+		loading: true,
+	};
+
+	var SELECTED_COUNT_CHART_INIT = {
 		options: { chart: { type: 'pie' }},
 		series: [],
 		title: { text: '数量与种类' },
@@ -114,22 +130,44 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 		loading: true,
 	};
 
+	var SELECTED_PRICE_CHART_INIT = {
+		options: { chart: { type: 'pie' }},
+		series: [],
+		title: { text: '价格与种类' },
+		yAxis: { title: { text: '值' }},
+		xAxis: { title: { text: '价格' }},
+		loading: true,
+	};
+
+	$scope.$watch('countChart.options.chart.type', function(newValue, oldValue) {
+		$scope.priceChart.options.chart.type = newValue;
+	});
+
 	function select_chart(e) {
 		var year = this.name;
 		if (year) {
-			var chart = $scope.selectedChartConfig;
+			var countChart = $scope.selectedCountChart;
+			var priceChart = $scope.selectedPriceChart;
 			var items = $scope.orignalData[year];
-			var data = [];
+			var countData = [];
+			var priceData = [];
+
 			for (var name in items) {
 				if ("total" != name) {
 					var count = items[name].count;
-					data.push([name + " X " + count, count]);
+					var price = items[name].total_price;
+					countData.push([name + " X " + count, count]);
+					priceData.push([name + ": " + price, parseFloat(price)]);
 				}
 			}
 
-			chart.series = [{name: '数量', data: data}];
-			chart.title.text =  year + "年数量与种类统计(总数:" + items.total.count + ")"
-			chart.loading = false;
+			countChart.series = [{ name: '数量', data: countData }];
+			countChart.title.text =  year + "年数量与种类统计(总数:" + items.total.count + ")"
+			countChart.loading = false;
+
+			priceChart.series = [{ name: '价格', data: priceData }];
+			priceChart.title.text =  year + "年价格与种类统计(总价:" + items.total.total_price + ")"
+			priceChart.loading = false;
 
 			$scope.selectedYear = year;
 
@@ -137,8 +175,10 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 		}
 	};
 
-	$scope.chartConfig = CHART_INIT;
-	$scope.selectedChartConfig = SELECTED_CHART_INIT;
+	$scope.countChart = COUNT_CHART_INIT;
+	$scope.priceChart = PRICE_CHART_INIT;
+	$scope.selectedCountChart = SELECTED_COUNT_CHART_INIT;
+	$scope.selectedPriceChart = SELECTED_PRICE_CHART_INIT;
 
 	$scope.close = function () {
 		$modalInstance.close();
@@ -157,9 +197,11 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 	}
 
 	ResourceStatistic.getList(urlParams).then(function (data){
-		var chart = $scope.chartConfig;
+		var countChart = $scope.countChart;
+		var priceChart = $scope.priceChart;
 		var rows = data.orignalData;
 		var countData = [];
+		var priceData = [];
 		var categories = [];
 
 		$scope.orignalData = data.orignalData;
@@ -167,10 +209,15 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 		for (var year in rows) {
 			categories.push(year);
 			countData.push([year, rows[year].total.count]);
+			priceData.push([year, parseFloat(rows[year].total.total_price)]);
 		}
 
-		chart.xAxis = {categories: categories};
-		chart.series = [{name: '数量', data: countData }];
-		chart.loading = false;
+		countChart.xAxis = {categories: categories};
+		countChart.series = [{ name: '数量', data: countData }];
+		countChart.loading = false;
+
+		priceChart.xAxis = {categories: categories};
+		priceChart.series = [{ name: '价格', data: priceData }];
+		priceChart.loading = false;
 	});
 });
