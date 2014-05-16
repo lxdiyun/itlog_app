@@ -1,15 +1,19 @@
 'use strict';
 
-ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTableParams) {
-	function get_table_data($defer, params) {
+ITLOG_APP.controller('mainController', function ($scope, $cookieStore, $modal, Resource, ngTableParams) {
+	function getTableData($defer, params) {
 		var urlParams = {page:params.page(), page_size: params.count()};
 		var sorting = params.sorting();
 		var ordering = [];
 
-		for (var filed in $scope.filterDict) {
-			var filterString = $scope.filterDict[filed]
-			if (filterString && (0 < filterString.length)) {
-				urlParams[filed] = filterString;
+		var filterDict = $scope.filterDict;
+		if (filterDict) {
+			$cookieStore.put('filterDict', $scope.filterDict);
+			for (var filed in $scope.filterDict) {
+				var filterString = $scope.filterDict[filed]
+				if (filterString && (0 < filterString.length)) {
+					urlParams[filed] = filterString;
+				}
 			}
 		}
 
@@ -25,7 +29,11 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTab
 		urlParams['ordering'] = ordering;
 
 		if ($scope.searchString) {
+			$cookieStore.put('searchString', $scope.searchString);
 			urlParams['search'] = $scope.searchString;
+		}
+		else {
+			$cookieStore.remove('searchString');
 		}
 
 		Resource.getList(urlParams).then(function (data){
@@ -35,9 +43,12 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTab
 	}
 
 	$scope.tableParams = new ngTableParams({ page: 1, count: 10, sorting: { record_date: 'desc'}},
-					       { total: 0, getData: get_table_data }); 
+					       { total: 0, getData: getTableData }); 
 
-	$scope.filterDict = {};
+	$scope.filterDict = $cookieStore.get('filterDict');
+	if (!$scope.filterDict) {
+		$scope.filterDict = {};
+	}
 	$scope.$watch('filterDict', function (newValue, oldValue) {
 		if (JSON.stringify(newValue) !==  JSON.stringify(oldValue)) {
 			$scope.tableParams.page(1);
@@ -45,6 +56,7 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTab
 		}
 	}, true);
 
+	$scope.searchString = $cookieStore.get('searchString');
 	$scope.cleanSearch =  function () {
 		$scope.tableParams.page(1);
 		$scope.searchString = '';
@@ -75,7 +87,7 @@ var DetailCtrl = function ($scope, $modalInstance, resource) {
 	};
 };
 
-ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic, filterDict, searchString) {
+ITLOG_APP.controller('statisticsController', function ($scope, $cookieStore, ResourceStatistic) {
 	var COUNT_CHART_INIT = {
 		options: { 
 			chart: { type: "spline" },
@@ -168,13 +180,17 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 	$scope.selectedPriceChart = SELECTED_PRICE_CHART_INIT;
 
 	var urlParams = {};
-	for (var filed in filterDict) {
-		var filterString = filterDict[filed]
-		if (filterString && (0 < filterString.length)) {
-			urlParams[filed] = filterString;
+	var filterDict = $cookieStore.get('filterDict');
+	if (filterDict) {
+		for (var filed in filterDict) {
+			var filterString = filterDict[filed]
+			if (filterString && (0 < filterString.length)) {
+				urlParams[filed] = filterString;
+			}
 		}
 	}
 
+	var searchString = $cookieStore.get('searchString');
 	if (searchString) {
 		urlParams['search'] = searchString;
 	}
@@ -189,18 +205,21 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 
 		$scope.orignalData = data.orignalData;
 
-		for (var year in rows) {
-			categories.push(year);
-			countData.push([year, rows[year].total.count]);
-			priceData.push([year, parseFloat(rows[year].total.total_price)]);
+		if (rows) {
+			for (var year in rows) {
+				categories.push(year);
+				countData.push([year, rows[year].total.count]);
+				priceData.push([year, parseFloat(rows[year].total.total_price)]);
+			}
+
+			countChart.xAxis = {categories: categories};
+			countChart.series = [{ name: '数量', data: countData }];
+
+			priceChart.xAxis = {categories: categories};
+			priceChart.series = [{ name: '价格', data: priceData }];
 		}
 
-		countChart.xAxis = {categories: categories};
-		countChart.series = [{ name: '数量', data: countData }];
 		countChart.loading = false;
-
-		priceChart.xAxis = {categories: categories};
-		priceChart.series = [{ name: '价格', data: priceData }];
 		priceChart.loading = false;
 	});
 });

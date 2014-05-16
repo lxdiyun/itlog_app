@@ -7,7 +7,8 @@
 }
 
 .table-div {
-  overflow-x: auto
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .table-div th, .table-div td {
