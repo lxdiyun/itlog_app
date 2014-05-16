@@ -7,71 +7,9 @@
 
 <link rel="stylesheet" type="text/css" href="css/app.css"></link>
 </head>
-<body ng-controller="mainContorller">
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <form class="form-inline" role="form">
-        <label>显示的列:</label>
-        <div class="checkbox" ng-repeat="column in RESOURCE_META">
-          <label>
-            <input ng-model="column.visible" type="checkbox"/> {{column.title}} 
-          </label> 
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-10">
-      <form class="form-inline" role="form">
-        <div class="form-group has-feedback">
-          <input type="text" class="form-control" placeholder="搜索" style="width:100%" ng-model="searchString" xng-clearable>
-          <span class="glyphicon glyphicon-remove form-control-feedback clickable" ng-click="cleanSearch()" ng-show="searchString.length"></span>
-        </div>
-      </form>
-    </div>
-    <div class="col-xs-2 text-right">
-      <button type="submit" ng-click="statistics()" class="btn btn-success">统计</button>
-    </div>
-    
-  </div>
-  <div class="row">
-    <div  id="table-div" class="col-xs-12 table-responsive table-div">
-      <label ng-show="tableParams.total()">数量：{{tableParams.total()}}</label>
+<body>
 
-      <table ng-table="tableParams" show-filter="true" id="table" class="table table-hover">
-        <thead>
-        <tr ng-show="tableParams.total()">
-          <th ng-repeat="column in RESOURCE_META"
-            ng-show="column.visible" 
-            ng-class="{
-            'sort-asc': tableParams.isSortBy(column.field, 'asc'),
-            'sort-desc': tableParams.isSortBy(column.field, 'desc')
-            }"
-            ng-click="tableParams.sorting(column.field, tableParams.isSortBy(column.field, 'desc') ? 'asc' : 'desc')"
-            filter="{ 'name': 'text' }" 
-            class="text-center sortable table-data"
-            >
-            <div class="ng-scope ng-binding">{{column.title}}</div>
-          </th>
-        </tr>
-        <tr ng-show="tableParams.total()">
-          <th ng-repeat="column in RESOURCE_META" ng-show="column.visible" class="text-center sortable">
-            <input ng-if="column.filter" ng-model="filterDict[column.field]" type="text" class="form-control"/>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="resource in $data" ng-click="open(resource)" class="clickable table-row">
-          <td ng-repeat="column in RESOURCE_META" ng-show="column.visible" sortable="column.field" filter="{ 'name': 'text' }" class="table-data">
-            {{resource[column.field]}}
-          </td> 
-        </tr> 
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+<div ui-view></div>
 
 <script data-main="js/main" src="bower_components/requirejs/require.js"></script>
 

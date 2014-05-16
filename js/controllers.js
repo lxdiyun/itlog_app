@@ -1,6 +1,6 @@
 'use strict';
 
-ITLOG_APP.controller('mainContorller', function($scope, $modal, Resource, ngTableParams) {
+ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTableParams) {
 	function get_table_data($defer, params) {
 		var urlParams = {page:params.page(), page_size: params.count()};
 		var sorting = params.sorting();
@@ -28,7 +28,7 @@ ITLOG_APP.controller('mainContorller', function($scope, $modal, Resource, ngTabl
 			urlParams['search'] = $scope.searchString;
 		}
 
-		Resource.getList(urlParams).then(function(data){
+		Resource.getList(urlParams).then(function (data){
 			params.total(data.count);
 			$defer.resolve(data);
 		});
@@ -38,7 +38,7 @@ ITLOG_APP.controller('mainContorller', function($scope, $modal, Resource, ngTabl
 					       { total: 0, getData: get_table_data }); 
 
 	$scope.filterDict = {};
-	$scope.$watch('filterDict', function(newValue, oldValue) {
+	$scope.$watch('filterDict', function (newValue, oldValue) {
 		if (JSON.stringify(newValue) !==  JSON.stringify(oldValue)) {
 			$scope.tableParams.page(1);
 			$scope.tableParams.reload();
@@ -50,7 +50,7 @@ ITLOG_APP.controller('mainContorller', function($scope, $modal, Resource, ngTabl
 		$scope.searchString = '';
 		$scope.tableParams.reload();
 	};
-	$scope.$watch('searchString', function(newValue, oldValue) {
+	$scope.$watch('searchString', function (newValue, oldValue) {
 		$scope.tableParams.page(1);
 		$scope.tableParams.reload();
 	});
@@ -65,22 +65,9 @@ ITLOG_APP.controller('mainContorller', function($scope, $modal, Resource, ngTabl
 			}
 		});
 	};
-
-	$scope.statistics = function () {
-		var modalInstance = $modal.open({
-			templateUrl: 'partials/statistics.html',
-			controller: 'statisticsCtrl',
-			size: "lg",
-			resolve: {
-				filterDict: function () { return $scope.filterDict; },
-				searchString: function () { return $scope.searchString; }
-			}
-		});
-	};
-
 });
 
-var DetailCtrl = function($scope, $modalInstance, resource) {
+var DetailCtrl = function ($scope, $modalInstance, resource) {
 	$scope.resource = resource;
 
 	$scope.close = function () {
@@ -88,7 +75,7 @@ var DetailCtrl = function($scope, $modalInstance, resource) {
 	};
 };
 
-ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, ResourceStatistic, filterDict, searchString) {
+ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic, filterDict, searchString) {
 	var COUNT_CHART_INIT = {
 		options: { 
 			chart: { type: "spline" },
@@ -139,7 +126,7 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 		loading: true,
 	};
 
-	$scope.$watch('countChart.options.chart.type', function(newValue, oldValue) {
+	$scope.$watch('countChart.options.chart.type', function (newValue, oldValue) {
 		$scope.priceChart.options.chart.type = newValue;
 	});
 
@@ -179,10 +166,6 @@ ITLOG_APP.controller('statisticsCtrl', function($scope, $modalInstance, Resource
 	$scope.priceChart = PRICE_CHART_INIT;
 	$scope.selectedCountChart = SELECTED_COUNT_CHART_INIT;
 	$scope.selectedPriceChart = SELECTED_PRICE_CHART_INIT;
-
-	$scope.close = function () {
-		$modalInstance.close();
-	};
 
 	var urlParams = {};
 	for (var filed in filterDict) {
