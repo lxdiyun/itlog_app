@@ -4,8 +4,8 @@
     <div class="col-xs-10">
       <form class="form-inline" role="form">
         <div class="form-group has-feedback">
-          <input type="text" class="form-control" placeholder="搜索" style="width:100%" ng-model="searchString" xng-clearable>
-          <span class="glyphicon glyphicon-remove form-control-feedback clickable" ng-click="cleanSearch()" ng-show="searchString.length"></span>
+          <input type="text" class="form-control" placeholder="搜索" style="width:100%" ng-model="queryParams.searchString">
+          <span class="glyphicon glyphicon-remove form-control-feedback clickable" ng-click="cleanSearch()" ng-show="queryParams.searchString.length"></span>
         </div>
       </form>
     </div>
@@ -49,7 +49,7 @@
           </tr>
           <tr ng-show="tableParams.total()">
             <th ng-repeat="column in RESOURCE_META" ng-show="column.visible" class="text-center sortable">
-              <input ng-if="column.filter" ng-model="filterDict[column.field]" type="text" class="form-control"/>
+              <input ng-if="column.filter" ng-model="queryParams.filterDict[column.field]" type="text" class="form-control"/>
             </th>
           </tr>
         </thead>

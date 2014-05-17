@@ -4,8 +4,7 @@ var ITLOG_APP = angular.module('itlogApp', ['ngAnimate', 'ngRoute', 'itlogServic
 
 ITLOG_APP.run(function ($rootScope, RESOURCE_META){
 	$rootScope.RESOURCE_META = RESOURCE_META;
-	$rootScope.filterDict = {};
-	$rootScope.searchString = '';
+	$rootScope.queryParams = { filterDict: {}, searchString:""};
 });
 
 ITLOG_APP.config(function ($routeProvider) {

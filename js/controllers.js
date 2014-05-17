@@ -6,9 +6,9 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTab
 		var sorting = params.sorting();
 		var ordering = [];
 
-		var filterDict = $scope.filterDict;
-		for (var filed in $scope.filterDict) {
-			var filterString = $scope.filterDict[filed]
+		var filterDict = $scope.queryParams.filterDict;
+		for (var filed in filterDict) {
+			var filterString = filterDict[filed];
 			if (filterString && (0 < filterString.length)) {
 				urlParams[filed] = filterString;
 			}
@@ -25,8 +25,9 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTab
 		}
 		urlParams['ordering'] = ordering;
 
-		if ($scope.searchString) {
-			urlParams['search'] = $scope.searchString;
+		var searchString = $scope.queryParams.searchString;
+		if (searchString) {
+			urlParams['search'] = searchString;
 		}
 
 		Resource.getList(urlParams).then(function (data){
@@ -38,19 +39,19 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTab
 	$scope.tableParams = new ngTableParams({ page: 1, count: 10, sorting: { record_date: 'desc'}},
 					       { total: 0, getData: getTableData }); 
 
-	$scope.$watch('filterDict', function (newValue, oldValue) {
+	$scope.$watchCollection('queryParams.filterDict', function (newValue, oldValue) {
 		if (JSON.stringify(newValue) !==  JSON.stringify(oldValue)) {
 			$scope.tableParams.page(1);
 			$scope.tableParams.reload();
 		}
-	}, true);
+	});
 
 	$scope.cleanSearch =  function () {
 		$scope.tableParams.page(1);
-		$scope.searchString = '';
+		$scope.queryParams.searchString = '';
 		$scope.tableParams.reload();
 	};
-	$scope.$watch('searchString', function (newValue, oldValue) {
+	$scope.$watch('queryParams.searchString', function (newValue, oldValue) {
 		$scope.tableParams.page(1);
 		$scope.tableParams.reload();
 	});
@@ -168,16 +169,17 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 	$scope.selectedPriceChart = SELECTED_PRICE_CHART_INIT;
 
 	var urlParams = {};
-	var filterDict = $scope.filterDict;
+	var filterDict = $scope.queryParams.filterDict;
 	for (var filed in filterDict) {
-		var filterString = filterDict[filed]
+		var filterString = filterDict[filed];
 		if (filterString && (0 < filterString.length)) {
 			urlParams[filed] = filterString;
 		}
 	}
 
-	if ($scope.searchString) {
-		urlParams['search'] = $scope.searchString;
+	var searchString = $scope.queryParams.searchString;
+	if (searchString) {
+		urlParams['search'] = searchString;
 	}
 
 	ResourceStatistic.getList(urlParams).then(function (data){
