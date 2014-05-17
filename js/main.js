@@ -26,7 +26,7 @@ require.config({
 		'highcharts-ng': {deps: [ 'jquery', 'highcharts', 'highcharts-export']},
 		'services': { deps: ['angular','restangular']},
 		'controllers': { deps: ['app']},
-		'app': {deps: ['jquery', 'angular', 'ngAnimate', 'ngRoute', 'ngTable', 'uiBootstrap', 'highcharts-ng', 'services']}
+		'app': {deps: ['angular', 'ngAnimate', 'ngRoute', 'ngTable', 'uiBootstrap', 'highcharts-ng', 'services']}
 	}
 });
 
