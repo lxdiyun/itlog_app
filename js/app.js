@@ -16,5 +16,5 @@ ITLOG_APP.config(function ($routeProvider, $locationProvider) {
 		templateUrl: "partials/statistics.html",
 		controller: 'statisticsController',
 	})
-	.otherwise("/list");
+	.otherwise({redirectTo: "/list"});
 });
