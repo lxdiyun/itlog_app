@@ -5,7 +5,6 @@ require.config({
 	paths: {
 		'jquery': '../bower_components/jquery/dist/jquery.min',
 		'angular': '../bower_components/angular/angular.min',
-		'ngCookies': '../bower_components/angular-cookies/angular-cookies.min',
 		'ngAnimate': '../bower_components/angular-animate/angular-animate.min',
 		'ngRoute': '../bower_components/angular-route/angular-route.min',
 		'lodash': '../bower_components/lodash/dist/lodash.underscore.min',
@@ -18,7 +17,6 @@ require.config({
 	},
 	shim: {
 		'angular': { exports: 'angular' },
-		'ngCookies': { deps:['angular'] },
 		'ngAnimate': { deps:['angular'] },
 		'ngRoute': { deps:['angular'] },
 		'restangular': { deps: ['angular', 'lodash'] },
@@ -28,7 +26,7 @@ require.config({
 		'highcharts-ng': {deps: [ 'jquery', 'highcharts', 'highcharts-export']},
 		'services': { deps: ['angular','restangular']},
 		'controllers': { deps: ['app']},
-		'app': {deps: ['angular', 'ngCookies', 'ngAnimate', 'ngRoute', 'ngTable', 'uiBootstrap', 'highcharts-ng', 'services']}
+		'app': {deps: ['jquery', 'angular', 'ngAnimate', 'ngRoute', 'ngTable', 'uiBootstrap', 'highcharts-ng', 'services']}
 	}
 });
 

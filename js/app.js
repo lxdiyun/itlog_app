@@ -1,12 +1,14 @@
 'use strict';
 
-var ITLOG_APP = angular.module('itlogApp', ['ngAnimate', 'ngCookies', 'ngRoute', 'itlogServices', 'ngTable',  'ui.bootstrap', 'highcharts-ng']);
+var ITLOG_APP = angular.module('itlogApp', ['ngAnimate', 'ngRoute', 'itlogServices', 'ngTable',  'ui.bootstrap', 'highcharts-ng']);
 
 ITLOG_APP.run(function ($rootScope, RESOURCE_META){
 	$rootScope.RESOURCE_META = RESOURCE_META;
+	$rootScope.filterDict = {};
+	$rootScope.searchString = '';
 });
 
-ITLOG_APP.config(function ($routeProvider, $locationProvider) {
+ITLOG_APP.config(function ($routeProvider) {
 	$routeProvider
 	.when('/list', {
 		templateUrl: "partials/list.html",
