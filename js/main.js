@@ -18,6 +18,7 @@ require.config({
 		'angular': { exports: 'angular' },
 		'ngAnimate': { deps:['angular'] },
 		'ngRoute': { deps:['angular'] },
+		'ngResource': { deps:['angular'] },
 		'ngTable': { deps: ['angular'] },
 		'uiBootstrap': {deps: ['angular']},
 		'highcharts-export': {deps: ['highcharts']},

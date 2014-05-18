@@ -194,11 +194,9 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 
 		if (rows) {
 			for (var year in rows) {
-				if ('$' !== year[0]) {
-					categories.push(year);
-					countData.push([year, rows[year].total.count]);
-					priceData.push([year, parseFloat(rows[year].total.total_price)]);
-				}
+				categories.push(year);
+				countData.push([year, rows[year].total.count]);
+				priceData.push([year, parseFloat(rows[year].total.total_price)]);
 			}
 
 			countChart.xAxis = {categories: categories};
