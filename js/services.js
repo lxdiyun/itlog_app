@@ -1,59 +1,25 @@
 'use strict';
 
-var services = angular.module('itlogServices', ['restangular']);
+var services = angular.module('itlogServices', ['ngResource']);
 
-services.config(function(RestangularProvider) {
-	//RestangularProvider.setBaseUrl("http://192.168.64.128/website/itlog/api/");
-	RestangularProvider.setBaseUrl("http://127.0.0.1:8000/itlog/api/");
-	
-	RestangularProvider.setRequestSuffix('/');
+//var apiBase = "http://192.168.64.128/website/itlog/api/";
+var apiBase = "http://127.0.0.1:8000/itlog/api/";
 
-	RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-		if (what in DATA_INTERCEPTORS) {
-			return DATA_INTERCEPTORS[what](data);
-		}
-		else {
-			return data;
-		}
-    });
-});
+services.factory('Resource', ['$resource', function($resource) {
+	return $resource(apiBase + 'resource/:resourceID',
+			 {},
+			 { query: {method: 'GET', params: {resourceID: ''}, isArray: false} }
+			);
 
+}]);
 
-services.factory('Resource', function(Restangular){
-	return Restangular.service('resource');
-});
+services.factory('ResourceStatistic', ['$resource', function($resource) {
+	return $resource(apiBase + 'resource_statistic/',
+			 {},
+			 { query: {isArray: false} }
+			);
 
-services.factory('ResourceStatistic', function(Restangular){
-	return Restangular.service('resource_statistic');
-});
-
-function resouceInterceptor(data) {
-	var extractedData = data;
-	var results = data.results;
-	var count = data.count;
-
-	if (results) {
-		extractedData = results;
-	}
-	if (count) {
-		extractedData.count = data.count;
-	}
-
-	return extractedData;
-}
-
-function resouceStatisticInterceptor(data) {
-	var extractedData = [];
-
-	extractedData.orignalData = data;
-
-	return extractedData;
-}
-
-var DATA_INTERCEPTORS = {
-	'resource': resouceInterceptor,
-	'resource_statistic': resouceStatisticInterceptor
-};
+}]);
 
 services.constant('RESOURCE_META',[
 	{ title: '序号', field: 'number', visible: false },

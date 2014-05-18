@@ -30,9 +30,9 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTab
 			urlParams['search'] = searchString;
 		}
 
-		Resource.getList(urlParams).then(function (data){
+		Resource.query(urlParams, function (data){
 			params.total(data.count);
-			$defer.resolve(data);
+			$defer.resolve(data.results);
 		});
 	}
 
@@ -182,21 +182,21 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 		urlParams['search'] = searchString;
 	}
 
-	ResourceStatistic.getList(urlParams).then(function (data){
+	$scope.orignalData = ResourceStatistic.query(urlParams, function (result){
 		var countChart = $scope.countChart;
 		var priceChart = $scope.priceChart;
-		var rows = data.orignalData;
+		var rows = $scope.orignalData;
 		var countData = [];
 		var priceData = [];
 		var categories = [];
 
-		$scope.orignalData = data.orignalData;
-
 		if (rows) {
 			for (var year in rows) {
-				categories.push(year);
-				countData.push([year, rows[year].total.count]);
-				priceData.push([year, parseFloat(rows[year].total.total_price)]);
+				if ('$' !== year[0]) {
+					categories.push(year);
+					countData.push([year, rows[year].total.count]);
+					priceData.push([year, parseFloat(rows[year].total.total_price)]);
+				}
 			}
 
 			countChart.xAxis = {categories: categories};

@@ -29,11 +29,11 @@
 
   <div class="row">
     <div  id="table-div" class="col-xs-12 table-responsive table-div">
-      <label ng-show="tableParams.total()">数量：{{tableParams.total()}}</label>
+      <label>数量：{{tableParams.total()}}</label>
 
       <table ng-table="tableParams" show-filter="true" id="table" class="table table-hover">
         <thead>
-          <tr ng-show="tableParams.total()">
+          <tr>
             <th ng-repeat="column in RESOURCE_META"
               ng-show="column.visible" 
               ng-class="{
@@ -41,13 +41,12 @@
               'sort-desc': tableParams.isSortBy(column.field, 'desc')
               }"
               ng-click="tableParams.sorting(column.field, tableParams.isSortBy(column.field, 'desc') ? 'asc' : 'desc')"
-              filter="{ 'name': 'text' }" 
               class="text-center sortable table-data"
               >
               <div class="ng-scope ng-binding">{{column.title}}</div>
             </th>
           </tr>
-          <tr ng-show="tableParams.total()">
+          <tr>
             <th ng-repeat="column in RESOURCE_META" ng-show="column.visible" class="text-center sortable">
               <input ng-if="column.filter" ng-model="queryParams.filterDict[column.field]" type="text" class="form-control"/>
             </th>
