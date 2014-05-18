@@ -136,7 +136,7 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 		if (year) {
 			var countChart = $scope.selectedCountChart;
 			var priceChart = $scope.selectedPriceChart;
-			var items = $scope.orignalData[year];
+			var items = $scope.data[year];
 			var countData = [];
 			var priceData = [];
 
@@ -182,13 +182,15 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 		urlParams['search'] = searchString;
 	}
 
-	$scope.orignalData = ResourceStatistic.query(urlParams, function (result){
+	ResourceStatistic.query(urlParams, function (data) {
 		var countChart = $scope.countChart;
 		var priceChart = $scope.priceChart;
-		var rows = $scope.orignalData;
+		var rows = data.results;
 		var countData = [];
 		var priceData = [];
 		var categories = [];
+
+		$scope.data = rows;
 
 		if (rows) {
 			for (var year in rows) {
