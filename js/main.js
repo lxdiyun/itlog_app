@@ -9,7 +9,6 @@ require.config({
 		'ngRoute': '../bower_components/angular-route/angular-route.min',
 		'ngResource': '../bower_components/angular-resource/angular-resource.min',
 		'ngTable': '../bower_components/ng-table/ng-table',
-		'uiBootstrap': '../bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
 		'highcharts': '../bower_components/highcharts-release/highcharts',
 		'highcharts-export': '../bower_components/highcharts-release/modules/exporting',
 		'highcharts-ng': '../bower_components/highcharts-ng/dist/highcharts-ng.min',
@@ -20,12 +19,11 @@ require.config({
 		'ngRoute': { deps:['angular'] },
 		'ngResource': { deps:['angular'] },
 		'ngTable': { deps: ['angular'] },
-		'uiBootstrap': {deps: ['angular']},
 		'highcharts-export': {deps: ['highcharts']},
 		'highcharts-ng': {deps: [ 'jquery', 'angular', 'highcharts', 'highcharts-export']},
 		'services': { deps: ['angular','ngResource']},
 		'controllers': { deps: ['app']},
-		'app': {deps: ['angular', 'ngAnimate', 'ngRoute', 'ngTable', 'uiBootstrap', 'highcharts-ng', 'services']}
+		'app': {deps: ['angular', 'ngAnimate', 'ngRoute', 'ngTable', 'highcharts-ng', 'services']}
 	}
 });
 
