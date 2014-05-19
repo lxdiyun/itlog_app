@@ -13,10 +13,14 @@
       </dl>
     </div>
     <div class="col-xs-12 col-md-6">
-      <dl class="dl-horizontal">
-        <dt ng-repeat-start="field in RESOURCE_META">{{field.title}}</dt>
-        <dd ng-repeat-end>{{resource[field.field]||' '}}</dd>
-      </dl>
+      <h4 ng-if="resource.recent_logs">近期日志</h4>
+      
+      <ul>
+        <li ng-repeat="log in resource.recent_logs">
+        {{log}}
+        </li>
+
+      </uL>
     </div>
   </div>
 </div>
