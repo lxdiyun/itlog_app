@@ -1,13 +1,22 @@
 <div class="modal-header">
     <button ng-click="close()" class="close" aria-hidden="true" type="button">
-      ×
+      <span class="glyphicon glyphicon-remove"></span>
     </button>
     <h3 class="modal-title">{{resource.sn}}</h3>
 </div>
 <div class="modal-body">
-    <dl class="dl-horizontal">
-    <div>
-    <dt ng-repeat-start="field in RESOURCE_META">{{field.title}}</dt>
-    <dd ng-repeat-end>{{resource[field.field]||' '}}</dd>
-    </dl>
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <dl class="dl-horizontal">
+        <dt ng-repeat-start="field in RESOURCE_META">{{field.title}}</dt>
+        <dd ng-repeat-end>{{resource[field.field]||' '}}</dd>
+      </dl>
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <dl class="dl-horizontal">
+        <dt ng-repeat-start="field in RESOURCE_META">{{field.title}}</dt>
+        <dd ng-repeat-end>{{resource[field.field]||' '}}</dd>
+      </dl>
+    </div>
+  </div>
 </div>

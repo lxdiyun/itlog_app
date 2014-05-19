@@ -61,6 +61,7 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTab
 		var modalInstance = $modal.open({
 			templateUrl: 'partials/resouce_detail.html',
 			controller: DetailCtrl,
+			size: "lg",
 			resolve: {
 				resource: function () { return $scope.selectedResouce; }
 			}
