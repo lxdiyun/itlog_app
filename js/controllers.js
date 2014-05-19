@@ -1,6 +1,6 @@
 'use strict';
 
-ITLOG_APP.controller('mainController', function ($scope, $location,  Resource, ngTableParams) {
+ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTableParams) {
 	function getTableData($defer, params) {
 		var urlParams = {page:params.page(), page_size: params.count()};
 		var sorting = params.sorting();
@@ -57,15 +57,26 @@ ITLOG_APP.controller('mainController', function ($scope, $location,  Resource, n
 	});
 
 	$scope.open = function (resource) {
-		$location.path("/detail/" + resource.id);
+		$scope.selectedResouce = resource;
+		var modalInstance = $modal.open({
+			templateUrl: 'partials/resouce_detail.html',
+			controller: DetailCtrl,
+			resolve: {
+				resource: function () { return $scope.selectedResouce; }
+			}
+		});
 	};
 });
 
-ITLOG_APP.controller('detailController', function ($scope, $routeParams, Resource) {
-	$scope.resource = Resource.get({resourceID: $routeParams.resourceID});
-});
+var DetailCtrl = function ($scope, $modalInstance, resource) {
+	$scope.resource = resource;
 
-ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic, Resource) {
+	$scope.close = function () {
+		$modalInstance.close();
+	};
+};
+
+ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic) {
 	var COUNT_CHART_INIT = {
 		options: { 
 			chart: { type: "spline" },
