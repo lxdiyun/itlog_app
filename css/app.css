@@ -1,3 +1,16 @@
+.site-logo {                                                                    
+  background-color: white;                                                           
+  background-image: url("logo.jpg");                               
+  background-position: 50% bottom;                                                  
+  background-size: 100% auto;                                                       
+  background-repeat: no-repeat;                                                     
+  text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.25);                                         
+}
+
+.site-logo h2 {
+  font-weight: bold;
+}
+
 .checkbox {
   margin-right:8px;
 }
@@ -68,10 +81,8 @@
   opacity:1;
 }
 
-
 .view-animate.ng-enter, .view-animate.ng-leave {
 }
-
 .view-animate.ng-enter {
 }
 .view-animate.ng-enter.ng-enter-active {
