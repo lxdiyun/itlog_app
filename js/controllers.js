@@ -1,6 +1,11 @@
 'use strict';
 
+/******************************************************************************
+ * maincontroller
+ * controller for resource list table
+ */
 ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resource, ngTableParams) {
+	// resouce list table get data function
 	function getTableData($defer, params) {
 		var urlParams = {page:params.page(), page_size: params.count()};
 		var sorting = params.sorting();
@@ -36,9 +41,11 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resou
 		});
 	}
 
+	// initialize resouce table list
 	$scope.tableParams = new ngTableParams({ page: 1, count: 10, sorting: { record_date: 'desc'}},
 					       { total: 0, getData: getTableData }); 
 
+	// handling filter
 	var filterTimeout;
 	$scope.$watchCollection('queryParams.filterDict', function (newValue, oldValue) {
 		if (JSON.stringify(newValue) !==  JSON.stringify(oldValue)) {
@@ -55,6 +62,7 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resou
 		}
 	});
 
+	// handling search
 	var searchTimeout;
 	$scope.cleanSearch =  function () {
 		$scope.tableParams.page(1);
@@ -73,6 +81,7 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resou
 		}, 250);
 	});
 
+	// display resouce detail
 	$scope.open = function (resource) {
 		$scope.selectedResouce = resource;
 		var modalInstance = $modal.open({
@@ -86,6 +95,9 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resou
 	};
 });
 
+/******************************************************************************
+ * controller for resource detail modal
+ */
 var DetailCtrl = function ($scope, $modalInstance, resource) {
 	$scope.resource = resource;
 
@@ -94,7 +106,11 @@ var DetailCtrl = function ($scope, $modalInstance, resource) {
 	};
 };
 
+/******************************************************************************
+ * controller for resouce statist
+ */
 ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic) {
+	// initialize base chart
 	var COUNT_CHART_INIT = {
 		options: { 
 			chart: { type: "spline" },
@@ -127,6 +143,7 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 		loading: true,
 	};
 
+	// initialize chart for select
 	var SELECTED_COUNT_CHART_INIT = {
 		options: { chart: { type: 'pie' }},
 		series: [],
@@ -145,10 +162,12 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 		loading: true,
 	};
 
+	// handling user change base chart style
 	$scope.$watch('countChart.options.chart.type', function (newValue, oldValue) {
 		$scope.priceChart.options.chart.type = newValue;
 	});
 
+	// select special year in the base chart
 	function select_chart(e) {
 		var year = this.name;
 		if (year) {
@@ -186,6 +205,7 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 	$scope.selectedCountChart = SELECTED_COUNT_CHART_INIT;
 	$scope.selectedPriceChart = SELECTED_PRICE_CHART_INIT;
 
+	// get resouce statistic data
 	var urlParams = {};
 	var filterDict = $scope.queryParams.filterDict;
 	for (var filed in filterDict) {

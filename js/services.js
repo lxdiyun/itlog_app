@@ -5,6 +5,7 @@ var services = angular.module('itlogServices', ['ngResource']);
 var apiBase = "http://192.168.64.128/website/itlog/api/";
 //var apiBase = "http://127.0.0.1:8000/itlog/api/";
 
+// resource api services
 services.factory('Resource', ['$resource', function($resource) {
 	return $resource(apiBase + 'resource/:resourceID',
 			 {},
@@ -13,6 +14,7 @@ services.factory('Resource', ['$resource', function($resource) {
 
 }]);
 
+// resource statistic api services
 services.factory('ResourceStatistic', ['$resource', function($resource) {
 	return $resource(apiBase + 'resource_statistic',
 			 {},
