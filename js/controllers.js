@@ -46,6 +46,8 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resou
 				$timeout.cancel(filterTimeout);
 			}
 
+			// delay 250ms before reload, so won't reload every
+			// character typed
 			filterTimeout = $timeout(function () {
 				$scope.tableParams.page(1);
 				$scope.tableParams.reload();
@@ -63,6 +65,8 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resou
 			$timeout.cancel(searchTimeout);
 		}
 
+		// delay 250ms before reload, so won't reload everycharacter
+		// typed
 		searchTimeout = $timeout(function() {
 			$scope.tableParams.page(1);
 			$scope.tableParams.reload();
