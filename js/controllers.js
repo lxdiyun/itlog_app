@@ -39,10 +39,17 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resou
 	$scope.tableParams = new ngTableParams({ page: 1, count: 10, sorting: { record_date: 'desc'}},
 					       { total: 0, getData: getTableData }); 
 
+	var filterTimeout;
 	$scope.$watchCollection('queryParams.filterDict', function (newValue, oldValue) {
 		if (JSON.stringify(newValue) !==  JSON.stringify(oldValue)) {
-			$scope.tableParams.page(1);
-			$scope.tableParams.reload();
+			if (filterTimeout) {
+				$timeout.cancel(filterTimeout);
+			}
+
+			filterTimeout = $timeout(function () {
+				$scope.tableParams.page(1);
+				$scope.tableParams.reload();
+			}, 250);
 		}
 	});
 
@@ -52,7 +59,9 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resou
 		$scope.queryParams.searchString = '';
 	};
 	$scope.$watch('queryParams.searchString', function (newValue, oldValue) {
-		if (searchTimeout) $timeout.cancel(searchTimeout);
+		if (searchTimeout) {
+			$timeout.cancel(searchTimeout);
+		}
 
 		searchTimeout = $timeout(function() {
 			$scope.tableParams.page(1);
