@@ -1,6 +1,6 @@
 'use strict';
 
-ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTableParams) {
+ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resource, ngTableParams) {
 	function getTableData($defer, params) {
 		var urlParams = {page:params.page(), page_size: params.count()};
 		var sorting = params.sorting();
@@ -46,14 +46,18 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, Resource, ngTab
 		}
 	});
 
+	var searchTimeout;
 	$scope.cleanSearch =  function () {
 		$scope.tableParams.page(1);
 		$scope.queryParams.searchString = '';
-		$scope.tableParams.reload();
 	};
 	$scope.$watch('queryParams.searchString', function (newValue, oldValue) {
-		$scope.tableParams.page(1);
-		$scope.tableParams.reload();
+		if (searchTimeout) $timeout.cancel(searchTimeout);
+
+		searchTimeout = $timeout(function() {
+			$scope.tableParams.page(1);
+			$scope.tableParams.reload();
+		}, 250);
 	});
 
 	$scope.open = function (resource) {
