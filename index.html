@@ -1,4 +1,5 @@
-<html data-framework="angularjs">  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns:ng="http://192.168.64.128/webapps/itlog" data-framework="angularjs">  
 <head lang="zh">
 <meta charset="utf-8">
 <title>设备管理</title>  
@@ -6,6 +7,19 @@
 <link rel="stylesheet" type="text/css" href="bower_components/ng-table/ng-table.css"></link>
 
 <link rel="stylesheet" type="text/css" href="css/app.css"></link>
+
+<!--[if lte IE 8]>
+<script>
+document.createElement('highchart');
+document.createElement('ng-include');
+document.createElement('ng-pluralize');
+document.createElement('ng-view');
+// Optionally these for CSS
+document.createElement('ng:include');
+document.createElement('ng:pluralize');
+document.createElement('ng:view');
+</script>
+<![endif]-->
 </head>
 <body>
 
@@ -17,6 +31,11 @@
 </div>
 
 <script data-main="js/main" src="bower_components/requirejs/require.js"></script>
+
+<!--[if lt IE 9]>
+<script src="bower_components/html5shiv/dist/html5shiv.min.js"></script>
+<script src="bower_components/respond/dest/respond.min.js"></script>
+<![endif]-->
 
 </body>
 </html>
