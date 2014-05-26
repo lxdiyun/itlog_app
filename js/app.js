@@ -8,7 +8,10 @@ ITLOG_APP.run(function ($rootScope, RESOURCE_META){
 	$rootScope.queryParams = { filterDict: {}, searchString:""};
 });
 
-ITLOG_APP.config(function ($routeProvider) {
+ITLOG_APP.config(function ($routeProvider, $logProvider) {
+	// disable debug log
+	$logProvider.debugEnabled(false);
+
 	// Initialize route
 	$routeProvider
 	.when('/list', {
