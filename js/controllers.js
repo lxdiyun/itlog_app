@@ -69,16 +69,18 @@ ITLOG_APP.controller('mainController', function ($scope, $modal, $timeout, Resou
 		$scope.queryParams.searchString = '';
 	};
 	$scope.$watch('queryParams.searchString', function (newValue, oldValue) {
-		if (searchTimeout) {
-			$timeout.cancel(searchTimeout);
-		}
+		if (oldValue !== newValue) {
+			if (searchTimeout) {
+				$timeout.cancel(searchTimeout);
+			}
 
-		// delay 250ms before reload, so won't reload everycharacter
-		// typed
-		searchTimeout = $timeout(function() {
-			$scope.tableParams.page(1);
-			$scope.tableParams.reload();
-		}, 250);
+			// delay 250ms before reload, so won't reload everycharacter
+			// typed
+			searchTimeout = $timeout(function() {
+				$scope.tableParams.page(1);
+				$scope.tableParams.reload();
+			}, 250);
+		}
 	});
 
 	// display resouce detail
