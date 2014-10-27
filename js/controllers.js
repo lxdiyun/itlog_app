@@ -233,7 +233,15 @@ ITLOG_APP.controller('statisticsController', function ($scope, ResourceStatistic
 		$scope.data = rows;
 
 		if (rows) {
-			for (var year in rows) {
+			var row_keys = [];
+			for (var key in rows) {
+				if (rows.hasOwnProperty(key)) {
+					row_keys.push(key);
+				}
+			}
+			row_keys.sort();
+			for (var key in row_keys) {
+				var year = row_keys[key]
 				categories.push(year);
 				countData.push([year, rows[year].total.count]);
 				priceData.push([year, parseFloat(rows[year].total.total_price)]);
