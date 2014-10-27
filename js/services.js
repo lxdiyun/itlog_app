@@ -29,7 +29,7 @@ services.factory('ResourceStatistic', ['$resource', function($resource) {
 }]);
 
 services.constant('RESOURCE_META',[
-	{ title: '序号', field: 'number', visible: false },
+	{ title: '序号', field: 'id', visible: false },
 	{ title: '资产编号', field: 'sn', visible: true },
 	{ title: '分类号', field: 'catalog_id', visible: false, filter: true },
 	{ title: '国标号', field: 'national_id', visible: false, filter: true },
